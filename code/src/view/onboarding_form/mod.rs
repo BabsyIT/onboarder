@@ -20,11 +20,13 @@ pub fn form() -> Markup {
     let hours: Vec<String> = range.map(|i| format!("{}:00", i)).collect();
     html! {
 
-
+        form 
+            hx-post="/employees" 
+            hx-trigger="change delay:500ms" 
+            hx-target="#employee-selection" 
+        {
 
         input
-            hx-post="/employee"
-            hx-trigger="change delay:500ms"
             type="date"
             name="date"
             min={(formatted_time)} {
@@ -32,25 +34,20 @@ pub fn form() -> Markup {
 
             @for day in days {
                 input
-                    hx-post="/employee"
-                    hx-trigger="change delay:500ms"
                     type="checkbox"
                     value={(day)}
                     name={(day)} { (day) }
             }
 
-
-
-        select
-            hx-post="/employee"
-            hx-trigger="change delay:500ms"
+        select 
+            name="hour" 
         {
             @for hour in hours {
                 option
                     value={(hour)} { (hour) }
             }
         }
-
+}
      hr{};
 
      div id="employee-selection" {
