@@ -1,9 +1,9 @@
 use maud::{html, Markup, PreEscaped};
 use rocket::response::content;
 
-mod header;
 mod body;
 mod footer;
+mod header;
 mod onboarding_form;
 
 #[get("/")]
@@ -12,7 +12,7 @@ pub fn index() -> content::RawHtml<String> {
         div hx-get="/refresh" hx-trigger="every 300ms" {}
         ({body::body()})
         ({footer::footer()})
-       
+
     })
     .into_string();
     content::RawHtml(raw)
