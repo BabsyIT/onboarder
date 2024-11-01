@@ -1,0 +1,12 @@
+[package]
+name = "onboarder"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rocket ={version = "0.5.0"}
+maud = {version = "0.25"}
+webbrowser = "1.0.2"
+
+[profile.dev]
+opt-level = 0
