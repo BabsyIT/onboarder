@@ -1,6 +1,8 @@
 use chrono::Utc;
 use maud::{html, Markup};
 
+pub mod superbabsys;
+
 pub fn form() -> Markup {
     let dt = Utc::now();
 
@@ -20,38 +22,47 @@ pub fn form() -> Markup {
     let hours: Vec<String> = range.map(|i| format!("{}:00", i)).collect();
     html! {
 
-        form 
-            hx-post="/employees" 
-            hx-trigger="change delay:500ms" 
-            hx-target="#employee-selection" 
-        {
+            form
+                hx-post="/employees"
+                hx-trigger="change delay:500ms"
+                hx-target="#employee-selection"
+            {
 
-        input
-            type="date"
-            name="date"
-            min={(formatted_time)} {
-        };
+            input
+                type="date"
+                name="date"
+                min={(formatted_time)} {
+            };
 
-            @for day in days {
-                input
-                    type="checkbox"
-                    value={(day)}
-                    name={(day)} { (day) }
+            fieldset {
+                @for day in days {
+                    input
+                        type="checkbox"
+                        name={(day)} { (day) }
+                }
+            }
+            select
+                name="from"
+            {
+                @for hour in hours.clone() {
+                    option
+                        value={(hour)} { (hour) }
+                }
             }
 
-        select 
-            name="hour" 
-        {
-            @for hour in hours {
-                option
-                    value={(hour)} { (hour) }
+            select
+                name="to"
+            {
+                @for hour in hours {
+                    option
+                        value={(hour)} { (hour) }
+                }
             }
-        }
-}
-     hr{};
-
-     div id="employee-selection" {
-
-     }
     }
+         hr{};
+
+         div id="employee-selection" {
+
+         }
+        }
 }

@@ -4,12 +4,12 @@ use rocket::response::content;
 mod body;
 mod footer;
 mod header;
-mod onboarding_form;
+pub mod onboarding_form;
 
 #[get("/")]
 pub fn index() -> content::RawHtml<String> {
     let raw = page(html! {
-        div hx-get="/refresh" hx-trigger="every 300ms" {}
+        div hx-get="/refresh" hx-trigger="every 10000ms" {}
         ({body::body()})
         ({footer::footer()})
 

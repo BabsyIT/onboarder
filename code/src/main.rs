@@ -8,6 +8,8 @@ use tec::mount_tec;
 extern crate rocket;
 
 mod assets;
+mod persistence;
+mod superbabsys;
 mod tec;
 mod view;
 
@@ -23,9 +25,17 @@ fn rocket() -> _ {
 }
 
 fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
-    let with_index = rocket.mount("/", routes![view::index]);
+    let with_index = rocket.mount(
+        "/",
+        routes![
+            view::index,
+            view::onboarding_form::superbabsys::get_superbabsys,
+        ],
+    );
 
     let with_assets = mount_assets(with_index);
 
-    mount_tec(with_assets)
+    let with_tec = mount_tec(with_assets);
+
+    persistence::manage(with_tec)
 }

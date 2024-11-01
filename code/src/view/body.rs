@@ -1,4 +1,3 @@
-
 use maud::{html, Markup};
 
 use crate::view::onboarding_form;
