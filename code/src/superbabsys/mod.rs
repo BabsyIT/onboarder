@@ -231,6 +231,50 @@ impl SuperBabsy {
     pub fn get_parent(&self) -> Option<Vec<LanguageCompetency>> {
         self.parent.clone()
     }
+    
+    pub fn parent_comp_as_string(&self) -> String {
+        match &self.parent {
+            Some(p) => p
+                .iter()
+                .map(|lang| lang.name())
+                .collect::<Vec<&str>>()
+                .join(", "),
+            None => "None".to_string(),
+        }
+    }
+    
+    pub fn sitter_comp_as_string(&self) -> String {
+        match &self.sitter {
+            Some(p) => p
+                .iter()
+                .map(|lang| lang.name())
+                .collect::<Vec<&str>>()
+                .join(", "),
+            None => "None".to_string(),
+        }
+    }
+    
+    pub fn get_video_chat_link(&self) -> &str {
+        &self.video_chat_link
+    }
+    
+    pub fn get_image_url(&self) -> Option<&str> {
+        self.image_url.as_deref()
+    }
+    pub fn get_image_url_string_or_none(&self)-> String {
+        self.image_url.clone().unwrap_or("None".to_string())
+    }
+
+    
+    pub fn get_id(&self) -> uuid::Uuid {
+        self.id
+    }
+    pub fn get_name(&self) -> &str {
+        &self.name
+    }
+    pub fn get_description(&self) -> &str {
+        &self.description
+    }
 
     //returns all available hours from a given date toward the future
     pub fn get_available_hours(&self, from: NaiveDateTime) -> Vec<NaiveDateTime> {
@@ -241,6 +285,30 @@ impl SuperBabsy {
             .flat_map(|range: &AvailabilityRange| {
                 if range.is_available(from) {
                     range.every_possible_hour(from)
+                } else {
+                    Vec::new()
+                }
+            })
+            .collect();
+
+        available_hours.dedup();
+
+        available_hours.sort();
+
+        available_hours
+    }
+    
+    pub fn get_available_dates_from_first(&self) -> Vec<NaiveDateTime> {
+        let Some(first) = self.availability.dates.first() else {
+            return Vec::new();
+        };
+        let mut available_hours: Vec<NaiveDateTime> = self
+            .availability
+            .dates
+            .iter()
+            .flat_map(|range: &AvailabilityRange| {
+                if range.is_available(first.from.clone()) {
+                    range.every_possible_hour(first.from)
                 } else {
                     Vec::new()
                 }
