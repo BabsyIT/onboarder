@@ -281,23 +281,30 @@ pub fn hours_view(week_index: IsoWeek, hours: Vec<NaiveDateTime>) -> Markup {
         }
     });
 
-    let entries = week_map
+    let mut entries = week_map
         .drain()
         .collect::<Vec<(Weekday, Vec<NaiveDateTime>)>>();
+    
+    entries.sort_by(|entry, other| entry.1.first().unwrap().cmp(other.1.first().unwrap()));
 
     html! {
-        @for (day, hours) in entries {
-            div {
-                h4 { (weekday_to_string(day)) (hours.first().unwrap().date().format("%m-%d")) }
-                ul {
-                    @for hour in hours {
-                        button { (hour.time().format("%H:%M")) }
+        div .grid {
+            @for (day, hours) in entries {
+                article {
+                    header {
+                        h4 { (format!("{}, {}", weekday_to_string(day), hours.first().unwrap().date().format("%m/%d") ))   }
+                    }   
+                    body{
+                        ul {
+                            @for hour in hours {
+                                button ."hour-button"{ (hour.time().format("%H:%M")) }
+                            }
+                        }
                     }
+                   
                 }
             }
         }
-
-
     }
 }
 
