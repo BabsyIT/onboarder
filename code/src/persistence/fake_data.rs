@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
-use chrono::{NaiveDate, NaiveDateTime};
+use chrono::NaiveDate;
 
-use crate::superbabsys::{Availability, AvailabilityRange, LanguageCompetency, SuperBabsy};
+use crate::superbabsys::{Availability, LanguageCompetency, SuperBabsy};
 
 pub fn fake_data() -> HashMap<String, SuperBabsy> {
     let mut babsy_map = HashMap::new();
@@ -39,6 +39,9 @@ pub fn fake_andrea() -> SuperBabsy {
         LanguageCompetency::english(),
     ]);
 
+    andrea.image_url =
+        Some("https://babsy.ch/wp-content/uploads/2022/07/Andrea-S..jpg".to_string());
+
     andrea
 }
 
@@ -51,6 +54,8 @@ pub fn fake_catarina() -> SuperBabsy {
     catarina.availability = fake_availability_2();
     catarina.sitter = Some(vec![LanguageCompetency::english()]);
     catarina.parent = Some(vec![LanguageCompetency::english()]);
+    catarina.image_url =
+        Some("https://babsy.ch/wp-content/uploads/2022/07/Catarina.jpg".to_string());
 
     catarina
 }
@@ -65,6 +70,7 @@ pub fn fake_aswin() -> SuperBabsy {
     aswin.availability = fake_availability_2();
     aswin.sitter = Some(vec![LanguageCompetency::english()]);
     aswin.parent = None;
+    aswin.image_url = Some("https://babsy.ch/wp-content/uploads/2022/07/Aswin-S..png".to_string());
 
     aswin
 }
@@ -79,6 +85,8 @@ pub fn fake_steffi() -> SuperBabsy {
     steffi.availability = fake_availability();
     steffi.sitter = Some(vec![LanguageCompetency::english()]);
     steffi.parent = Some(vec![LanguageCompetency::german()]);
+    steffi.image_url =
+        Some("https://babsy.ch/wp-content/uploads/2022/07/Steffi-M..jpg".to_string());
 
     steffi
 }
@@ -92,6 +100,7 @@ pub fn fake_mia() -> SuperBabsy {
     mia.availability = fake_availability();
     mia.sitter = None;
     mia.parent = Some(vec![LanguageCompetency::german()]);
+    mia.image_url = Some("https://babsy.ch/wp-content/uploads/2022/09/WhatsApp-Bild-2023-10-30-um-08.56.15_ce9994ed.jpg".to_string());
 
     mia
 }

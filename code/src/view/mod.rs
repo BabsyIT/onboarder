@@ -25,14 +25,18 @@ const PICO: &str = r#"<link rel="stylesheet" href="_assets/pico.min.css">"#;
 const CSS: &str = r#"<link rel="stylesheet" href="_assets/app.css">"#;
 const HTMX: &str = r#"<script src="/_assets/htmx.min.js"></script>"#;
 const REFRESH: &str = r#"<script src="/_assets/refresh.js"></script>"#;
+const FONTS: &str = r###"
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">"###;
 
 pub fn page(markup: Markup) -> Markup {
     html! {
-       html {
+       html data-theme="light" ."ubuntu-regular"  {
 
             head {
                 ({scripts()})
-                ({title("Welcome to me")})
+                ({title("Babsy Onboarding")})
             }
 
             body {
@@ -48,6 +52,7 @@ fn scripts() -> Markup {
        (PreEscaped(CSS))
        (PreEscaped(HTMX))
        (PreEscaped(REFRESH))
+       (PreEscaped(FONTS))
     }
 }
 

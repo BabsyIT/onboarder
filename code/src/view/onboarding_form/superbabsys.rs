@@ -13,17 +13,17 @@ pub struct DateWindow<'r> {
     //the date they are available from
     date: &'r str,
     // none or "on"
-    #[field(name = "Monday")]
+    #[field(name = "Mo")]
     monday: Option<&'r str>,
-    #[field(name = "Tuesday")]
+    #[field(name = "Tu")]
     tuesday: Option<&'r str>,
-    #[field(name = "Wednesday")]
+    #[field(name = "We")]
     wednesday: Option<&'r str>,
-    #[field(name = "Thursday")]
+    #[field(name = "Th")]
     thursday: Option<&'r str>,
-    #[field(name = "Friday")]
+    #[field(name = "Fr")]
     friday: Option<&'r str>,
-    #[field(name = "Saturday")]
+    #[field(name = "Sa")]
     saturday: Option<&'r str>,
     //hours for example 8:00
     from: &'r str,
@@ -81,12 +81,27 @@ pub fn get_superbabsys(
 
 pub fn super_babsys_html(super_babsys: Vec<SuperBabsy>) -> Markup {
     html! {
-         div id="employee-selection" {
-        @for super_babsy in super_babsys {
-                h2 { (super_babsy.name) }
-                p { (super_babsy.description) }
-            }
-        }
+
+            div id="employee-selection" {
+
+           @for super_babsy in super_babsys {
+
+               article {
+                   header {
+                       h2 { (super_babsy.name) }
+                   }
+                   body {
+                       @if let Some(url) = super_babsy.image_url {
+                              img ."face-image" src=(url) alt=(super_babsy.name) {}
+                       }
+                       p { (super_babsy.description) }
+                   }
+                   footer {
+
+                   }
+               }
+           }
+       }
     }
 }
 
