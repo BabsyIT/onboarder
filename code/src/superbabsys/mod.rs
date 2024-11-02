@@ -1,4 +1,4 @@
-use chrono::{NaiveDate, NaiveDateTime, NaiveTime, TimeDelta};
+use chrono::{Datelike, NaiveDate, NaiveDateTime, NaiveTime, TimeDelta, Weekday};
 use rocket::futures::SinkExt;
 
 #[derive(Debug, Clone)]
@@ -59,7 +59,12 @@ impl AvailabilityRange {
             hours.push(start);
             start += TimeDelta::hours(1);
         }
-        hours
+        
+        let without_sundays: Vec<NaiveDateTime> = hours
+            .into_iter()
+            .filter(|date| date.weekday() != Weekday::Sun)
+            .collect();
+        without_sundays
     }
 }
 
