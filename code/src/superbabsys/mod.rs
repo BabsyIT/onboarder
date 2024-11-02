@@ -1,4 +1,4 @@
-use chrono::{NaiveDateTime, NaiveTime};
+use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
 
 #[derive(Debug, Clone)]
 pub struct SuperBabsy {
@@ -11,24 +11,46 @@ pub struct SuperBabsy {
 }
 
 #[derive(Debug, Clone)]
-struct Availability {
+pub struct Availability {
     dates: Vec<AvailabilityRange>,
 }
 
-#[derive(Debug, Clone)]
-struct AvailabilityRange {
-    from: NaiveDateTime,
-    to: NaiveDateTime,
+impl Availability {
+    pub fn new() -> Self {
+        Self { dates: vec![] }
+    }
+
+    pub fn add_date(&mut self, from: NaiveDate, to: NaiveDate) {
+        self.dates.push(AvailabilityRange::new(from, to));
+    }
+
+    pub fn get_available(&self, date: NaiveDate) -> bool {
+        self.dates
+            .iter()
+            .any(|range| date >= range.from && date <= range.to)
+    }
 }
 
 #[derive(Debug, Clone)]
-struct Both {
+pub struct AvailabilityRange {
+    from: NaiveDate,
+    to: NaiveDate,
+}
+
+impl AvailabilityRange {
+    pub fn new(from: NaiveDate, to: NaiveDate) -> Self {
+        Self { from, to }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct Both {
     sitter: Vec<LanguageCompetency>,
     parent: Vec<LanguageCompetency>,
 }
 
 #[derive(Debug, Clone)]
-struct LanguageCompetency {
+pub struct LanguageCompetency {
     id: i32,
     name: String,
 }
@@ -75,5 +97,9 @@ impl SuperBabsy {
             Some(s) => s.push(lang),
             None => self.parent = Some(vec![lang]),
         }
+    }
+    
+    pub fn is_available(&self, date: NaiveDate) -> bool {
+        self.availability.get_available(date)
     }
 }

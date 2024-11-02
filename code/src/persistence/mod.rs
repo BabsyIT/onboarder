@@ -7,20 +7,22 @@ use rocket::{Build, Rocket};
 
 use crate::superbabsys::SuperBabsy;
 
+mod fake_data;
+
 pub struct SuperBabsys {
-    babsyMap: Arc<Mutex<HashMap<String, SuperBabsy>>>,
+    babsy_map: Arc<Mutex<HashMap<String, SuperBabsy>>>,
 }
 
 impl SuperBabsys {
     pub fn get_super_babsys(&self) -> Vec<SuperBabsy> {
-        self.babsyMap.lock().unwrap().values().cloned().collect()
+        self.babsy_map.lock().unwrap().values().cloned().collect()
     }
 }
 
 pub fn manage(rocket: Rocket<Build>) -> Rocket<Build> {
-    let babsy_map = Arc::new(Mutex::new(HashMap::new()));
+    let babsy_map = Arc::new(Mutex::new(fake_data::fake_data()));
     let in_memory_super_babsy = SuperBabsys {
-        babsyMap: babsy_map,
+         babsy_map,
     };
     rocket.manage(in_memory_super_babsy)
 }

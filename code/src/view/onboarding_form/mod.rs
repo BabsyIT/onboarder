@@ -24,15 +24,15 @@ pub fn form() -> Markup {
 
             form
                 hx-post="/employees"
-                hx-trigger="change delay:500ms"
                 hx-target="#employee-selection"
-            {
+                hx-trigger="change from:input, change from:select, change from:checkbox"
+                hx-swap="outerHTML"
+        {
 
             input
                 type="date"
                 name="date"
-                min={(formatted_time)} {
-            };
+                min={(formatted_time)} {};
 
             fieldset {
                 @for day in days {
@@ -58,6 +58,7 @@ pub fn form() -> Markup {
                         value={(hour)} { (hour) }
                 }
             }
+            button type="Submit" { "Submit" }
     }
          hr{};
 
