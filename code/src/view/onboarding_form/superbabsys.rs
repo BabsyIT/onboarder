@@ -72,20 +72,35 @@ pub fn super_babsys_html(super_babsys: Vec<SuperBabsy>, from_date: NaiveDateTime
     let from_date = from_date.format("%Y-%m-%d %H:%M:%S").to_string();
 
     html! {
-
             div id="employee-selection" {
+
+            h6 { ({format!("SuperBabsys: {}", super_babsys.len())}) }
 
            @for super_babsy in super_babsys {
 
                article {
                    header {
-                       h2 { (super_babsy.name) }
+                       h3 { (super_babsy.name) }
                    }
                    body {
-                       @if let Some(url) = super_babsy.image_url.clone() {
-                              img ."face-image" src=(url) alt=(super_babsy.name.clone()) {}
+                       article {
+                           header {
+                               @if let Some(url) = super_babsy.image_url.clone() {
+                                      img ."face-image" src=(url) alt=(super_babsy.name.clone()) {}
+                               }
+                           }
+                           body {
+                               p { (super_babsy.description.clone()) }
+                           }
+                           footer {
+                               details {
+                                   summary { "More" }
+                                   a href={(super_babsy.video_chat_link.clone())} { "Vido Chat" }
+                               }
+
+                           }
                        }
-                       p { (super_babsy.description.clone()) }
+
                    }
                    footer {
                      form hx-post="/employees/hours" hx-trigger="load delay:500ms" {

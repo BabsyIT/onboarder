@@ -27,14 +27,7 @@ fn rocket() -> _ {
 }
 
 fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
-    let with_index = rocket.mount(
-        "/",
-        routes![
-            view::index,
-            get_superbabsys,
-            hours_view_html,
-        ],
-    );
+    let with_index = rocket.mount("/", routes![view::index, get_superbabsys, hours_view_html,]);
 
     let with_assets = mount_assets(with_index);
 

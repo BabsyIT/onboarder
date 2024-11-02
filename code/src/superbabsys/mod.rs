@@ -9,6 +9,7 @@ pub struct SuperBabsy {
     pub sitter: Option<Vec<LanguageCompetency>>,
     pub parent: Option<Vec<LanguageCompetency>>,
     pub availability: Availability,
+    pub video_chat_link: String,
 }
 
 #[derive(Debug, Clone)]
@@ -173,6 +174,7 @@ impl SuperBabsy {
         sitter: Option<Vec<LanguageCompetency>>,
         parent: Option<Vec<LanguageCompetency>>,
         availability: Availability,
+        video_chat_link: String,
     ) -> Self {
         Self {
             id,
@@ -182,18 +184,23 @@ impl SuperBabsy {
             sitter,
             parent,
             availability,
+            video_chat_link,
         }
     }
 
     pub fn new_base(name: String, description: String) -> Self {
         Self::new(
             uuid::Uuid::new_v4(),
-            name,
+            name.clone(),
             description,
             None,
             None,
             None,
             Availability { dates: Vec::new() },
+            format!(
+                "https://jitsi.babsy.ch/{}",
+                name.split(' ').collect::<Vec<&str>>().first().unwrap()
+            ),
         )
     }
 

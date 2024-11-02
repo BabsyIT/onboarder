@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-
 use chrono::{Datelike, IsoWeek, NaiveDateTime, Weekday};
 use maud::{html, Markup};
 use rocket::{form::Form, response::content::RawHtml, State};
