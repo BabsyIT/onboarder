@@ -166,6 +166,7 @@ impl LanguageCompetency {
 }
 
 impl SuperBabsy {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         id: uuid::Uuid,
         name: String,
@@ -237,14 +238,13 @@ impl SuperBabsy {
             .availability
             .dates
             .iter()
-            .map(|range: &AvailabilityRange| {
+            .flat_map(|range: &AvailabilityRange| {
                 if range.is_available(from) {
                     range.every_possible_hour(from)
                 } else {
                     Vec::new()
                 }
             })
-            .flatten()
             .collect();
 
         available_hours.dedup();

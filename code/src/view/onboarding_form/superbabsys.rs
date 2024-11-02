@@ -4,7 +4,7 @@ use maud::{html, Markup};
 use rocket::{form::Form, response::content::RawHtml, State};
 
 use crate::superbabsys::LanguageCompetency;
-use crate::{persistence::SuperBabsys, superbabsys::SuperBabsy};
+use crate::{persistence::super_babsys::SuperBabsys, superbabsys::SuperBabsy};
 
 use super::UserType;
 
@@ -178,10 +178,9 @@ fn only_available(
     super_babsys
         .into_iter()
         .filter(|babsy| {
-            user_availability.iter().any(|date| {
-                let res = babsy.is_available(*date);
-                res
-            })
+            user_availability
+                .iter()
+                .any(|date| babsy.is_available(*date))
         })
         .collect()
 }

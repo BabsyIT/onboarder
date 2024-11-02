@@ -10,6 +10,7 @@ use view::onboarding_form::superbabsys::get_superbabsys;
 extern crate rocket;
 
 mod assets;
+mod bookings;
 mod persistence;
 mod superbabsys;
 mod tec;
@@ -33,5 +34,5 @@ fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
 
     let with_tec = mount_tec(with_assets);
 
-    persistence::manage(with_tec)
+    persistence::super_babsys::manage(with_tec)
 }

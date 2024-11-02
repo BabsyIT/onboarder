@@ -4,7 +4,7 @@ use chrono::{Datelike, IsoWeek, NaiveDateTime, Weekday};
 use maud::{html, Markup};
 use rocket::{form::Form, response::content::RawHtml, State};
 
-use crate::persistence::SuperBabsys;
+use crate::persistence::super_babsys::SuperBabsys;
 
 #[derive(FromForm)]
 pub struct CurrentDate<'r> {
@@ -19,7 +19,7 @@ pub fn hours_view_html(
     current_date: Form<CurrentDate<'_>>,
     super_babsys: &State<SuperBabsys>,
 ) -> RawHtml<String> {
-    let from_date = NaiveDateTime::parse_from_str(&current_date.date, "%Y-%m-%d %H:%M:%S").unwrap();
+    let from_date = NaiveDateTime::parse_from_str(current_date.date, "%Y-%m-%d %H:%M:%S").unwrap();
     let week_index = from_date.iso_week();
 
     let Some(super_babsy) = super_babsys.get_super_babsy(current_date.id) else {
