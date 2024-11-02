@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::fmt::Pointer;
 
 use chrono::{Datelike, IsoWeek, NaiveDateTime, NaiveTime};
 use chrono::{Duration, NaiveDate, Weekday};
@@ -287,10 +288,10 @@ pub fn hours_view(week_index: IsoWeek, hours: Vec<NaiveDateTime>) -> Markup {
     html! {
         @for (day, hours) in entries {
             div {
-                h3 { (day) }
+                h4 { (weekday_to_string(day)) (hours.first().unwrap().date().format("%m-%d")) }
                 ul {
                     @for hour in hours {
-                        li { (hour) }
+                        button { (hour.time().format("%H:%M")) }
                     }
                 }
             }
@@ -298,4 +299,17 @@ pub fn hours_view(week_index: IsoWeek, hours: Vec<NaiveDateTime>) -> Markup {
 
 
     }
+}
+
+fn weekday_to_string(weekday: Weekday) -> String {
+    match weekday {
+        Weekday::Mon => "Mo",
+        Weekday::Tue => "Tu",
+        Weekday::Wed => "We",
+        Weekday::Thu => "Th",
+        Weekday::Fri => "Fr",
+        Weekday::Sat => "Sa",
+        Weekday::Sun => "Su",
+    }
+    .to_string()
 }
