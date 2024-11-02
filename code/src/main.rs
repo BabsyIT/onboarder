@@ -3,6 +3,8 @@ use std::env;
 use assets::mount_assets;
 use rocket::{Build, Rocket};
 use tec::mount_tec;
+use view::onboarding_form::hours::hours_view_html;
+use view::onboarding_form::superbabsys::get_superbabsys;
 
 #[macro_use]
 extern crate rocket;
@@ -29,8 +31,8 @@ fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
         "/",
         routes![
             view::index,
-            view::onboarding_form::superbabsys::get_superbabsys,
-            view::onboarding_form::superbabsys::hours_view_html,
+            get_superbabsys,
+            hours_view_html,
         ],
     );
 

@@ -17,7 +17,7 @@ impl SuperBabsys {
     pub fn get_super_babsys(&self) -> Vec<SuperBabsy> {
         self.babsy_map.lock().unwrap().values().cloned().collect()
     }
-    
+
     pub fn get_super_babsy(&self, id: &str) -> Option<SuperBabsy> {
         self.babsy_map.lock().unwrap().get(id).cloned()
     }

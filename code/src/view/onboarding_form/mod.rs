@@ -3,6 +3,7 @@ use maud::{html, Markup};
 
 use crate::superbabsys::LanguageCompetency;
 
+pub mod hours;
 pub mod superbabsys;
 
 pub enum UserType {
@@ -40,8 +41,6 @@ pub fn form(user_type: UserType) -> Markup {
 
     let days = vec!["Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-    let range = 8..21;
-    let hours: Vec<String> = range.map(|i| format!("{}:00", i)).collect();
     html! {
 
         img ."header-image" src="/_assets/cropped-babsy-logo.png"  {}
