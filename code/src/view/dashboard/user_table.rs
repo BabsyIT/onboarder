@@ -3,7 +3,6 @@ use maud::{html, Markup};
 use crate::superbabsys::SuperBabsy;
 
 pub fn generate(babsys: Vec<SuperBabsy>) -> Markup {
-    let now = chrono::Utc::now().naive_local();
     html! {
         div ."table-container" {
             table ."overflow-auto" {
