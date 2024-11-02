@@ -3,7 +3,9 @@ use std::env;
 use assets::mount_assets;
 use rocket::{Build, Rocket};
 use tec::mount_tec;
+use view::onboarding_form::booking::bookings_view_html;
 use view::onboarding_form::hours::hours_view_html;
+use view::onboarding_form::new_booking;
 use view::onboarding_form::superbabsys::get_superbabsys;
 
 #[macro_use]
@@ -15,6 +17,7 @@ mod persistence;
 mod superbabsys;
 mod tec;
 mod view;
+mod fake_app;
 
 #[launch]
 fn rocket() -> _ {
@@ -28,11 +31,22 @@ fn rocket() -> _ {
 }
 
 fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
-    let with_index = rocket.mount("/", routes![view::index, get_superbabsys, hours_view_html,]);
+    let with_index = rocket.mount(
+        "/",
+        routes![
+            view::index,
+            get_superbabsys,
+            hours_view_html,
+            bookings_view_html,
+            new_booking::new_booking,
+            fake_app::fake_app
+        ],
+    );
 
     let with_assets = mount_assets(with_index);
 
     let with_tec = mount_tec(with_assets);
 
-    persistence::super_babsys::manage(with_tec)
+    let with_super_babsys = persistence::super_babsys::manage(with_tec);
+    persistence::booking_requests::manage(with_super_babsys)
 }

@@ -8,7 +8,9 @@ pub fn body(user_type: UserType) -> Markup {
     html! {
         body {
             main .container {
-                {(onboarding_form::form(user_type))}
+                div #main-content{
+                    {(onboarding_form::form(user_type))}
+                }
             }
         }
     }

@@ -58,7 +58,7 @@ pub fn get_superbabsys(
     };
 
     match only_capable {
-        Ok(c) => RawHtml(super_babsys_html(c, from_date).into_string()),
+        Ok(c) => RawHtml(super_babsys_html(c, from_date, user_type.to_string()).into_string()),
         Err(e) => RawHtml(
             html! {
                 p { (e) }
@@ -68,7 +68,7 @@ pub fn get_superbabsys(
     }
 }
 
-pub fn super_babsys_html(super_babsys: Vec<SuperBabsy>, from_date: NaiveDateTime) -> Markup {
+pub fn super_babsys_html(super_babsys: Vec<SuperBabsy>, from_date: NaiveDateTime, user_type: String) -> Markup {
     let from_date = from_date.format("%Y-%m-%d %H:%M:%S").to_string();
 
     html! {
@@ -107,6 +107,7 @@ pub fn super_babsys_html(super_babsys: Vec<SuperBabsy>, from_date: NaiveDateTime
                          input type="hidden" name="id" value=(super_babsy.id) {}
 
                          input type="hidden" name="date" value=(from_date) {}
+                         input type="hidden" name="user_type" value=(user_type) {}
                      }
                    }
                }

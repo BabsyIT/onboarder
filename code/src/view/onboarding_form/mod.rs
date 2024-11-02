@@ -1,10 +1,13 @@
 use chrono::Utc;
 use maud::{html, Markup};
+use rocket::response::content::RawHtml;
 
 use crate::superbabsys::LanguageCompetency;
 
+pub mod booking;
 pub mod hours;
 pub mod superbabsys;
+pub mod new_booking;
 
 pub enum UserType {
     Sitter,
@@ -97,4 +100,9 @@ pub fn form(user_type: UserType) -> Markup {
 
          }
         }
+}
+
+#[post("/empty")]
+pub fn empty() -> RawHtml<String> {
+    RawHtml("".to_string())
 }

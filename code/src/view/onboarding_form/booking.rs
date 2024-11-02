@@ -1,0 +1,193 @@
+use chrono::NaiveDateTime;
+use maud::{html, Markup, PreEscaped};
+use rocket::{form::Form, response::content::RawHtml, State};
+
+use crate::persistence::super_babsys::SuperBabsys;
+
+#[derive(FromForm)]
+pub struct CurrentDateWithBabsy<'r> {
+    //the date they are available from
+    date: &'r str,
+    // the super babsy id
+    id: &'r str,
+    // user type
+    user_type: &'r str, 
+}
+
+#[post("/booking", data = "<current_date_with_babsy>")]
+pub fn bookings_view_html(
+    current_date_with_babsy: Form<CurrentDateWithBabsy<'_>>,
+    super_babsys: &State<SuperBabsys>,
+) -> RawHtml<String> {
+    let from_date =
+        NaiveDateTime::parse_from_str(current_date_with_babsy.date, "%Y-%m-%d %H:%M:%S").unwrap();
+
+    let Some(super_babsy) = super_babsys.get_super_babsy(current_date_with_babsy.id) else {
+        return RawHtml(
+            html! {
+                p { "Super Babsy not found" }
+            }
+            .into_string(),
+        );
+    };
+
+    let user_type = current_date_with_babsy.user_type;
+    let raw = html! {
+        div #main-content {
+            form hx-post="/booking/new" hx-target="#main-content" hx-swap="outerHTML" {
+               
+                input type="hidden" name="id" value=(super_babsy.id);
+                input type="hidden" name="date" value=(from_date);
+                input type="hidden" name="user_type" value=(user_type);
+    
+                ({inputs()})
+                 
+                    @if user_type == "parent" {
+                        ({for_parents()})
+                    }
+    
+                button type="submit" { "Submit" };
+            }
+        }
+        
+    }
+    .into_string();
+    RawHtml(raw)
+}
+
+fn inputs() -> Markup {
+    html! {
+        div {
+            label { "Vorname / First name" }
+            input type="text" name="first_name";
+
+            label { "Nachname / Last name" }
+            input type="text" name="last_name";
+
+            label { "Telefon / Phone" }
+            div {
+                span { "Switzerland +41" }
+                input type="text" name="phone";
+            }
+
+            label { "E-Mail / Email" }
+            input type="email" name="email";
+
+            label { "Address" }
+            div {
+                label { "Name der Strasse / Street Name" }
+                input type="text" name="street_name";
+
+                label { "Hausnummer / Number" }
+                input type="text" name="house_number";
+
+                label { "PLZ / Postal Code" }
+                input type="text" name="postal_code";
+
+                label { "Stadt / City" }
+                input type="text" name="city";
+
+                label { "Kanton / Canton" }
+                input type="text" name="canton";
+
+                label { "Land / Country" }
+                input type="text" name="country" value="Switzerland";
+            }
+
+            label { "Personalausweis Vorderseite (ID, Reisepass) / Identity Card front (ID, Passport)" }
+            input type="file" name="id_front";
+            p { "Lade ein Foto der Vorderseite des Personalausweises hoch / Upload a photo of your front of the identity card." }
+            p { "ACHTUNG: Die zulässigen Dateierweiterungen sind: jpg, jpeg, png, pdf. Ist dies nicht der Fall, erhalten Sie die folgende Meldung: \"Dateierweiterung ist nicht erlaubt / File's extension is not allowed\"" }
+
+            label { "Personalausweis Rückseite (ID, Reisepass) / Identity Card back (ID, Passport)" }
+            input type="file" name="id_back";
+            p { "Lade ein Foto der Rückseite des Personalausweises hoch / Upload a photo of the back of your identity card" }
+            p { "ACHTUNG: Die zulässigen Dateierweiterungen sind: jpg, jpeg, png, pdf. Ist dies nicht der Fall, erhalten Sie die folgende Meldung: \"Dateierweiterung ist nicht erlaubt / File's extension is not allowed\"" }
+        }
+    }
+}
+
+fn for_parents() -> Markup {
+    html! {
+           div {
+               h2 { "Babsy-App: Family profile addition" }
+               p { "Dear family Welcome to Babsy - the new world of childcare! 😊" }
+               p { "Nice, did you find your way to us and are you interested in our fantastic Babsy community." }
+               p { "Trust is very important to us, in our community there are only parents and sitters who have all gone through a personal verification process with someone from the Babsy crew. In this way we ensure that everyone involved can search and find each other in a secure network. But we also need your help for this - in order to complete your family profile, we ask you to fill out this questionnaire. That together with the app is then your family profile." }
+               p { "What further information can we give you here? Once you've seen the introduction video, there are sure to be a few more questions that we'd be happy to answer before we then conduct our personal conversation on site or via video call (the first conversation) in a further step." }
+               p { "Then we check the documents for completeness and correctness of the information and send you the approval for the app where you can then book directly to finalize the registration." }
+               p { "Later there are always opportunities at our events to talk to us personally, with other parents and with potential sitters." }
+               p { "We have summarized the suggested dates for you at the end of the questionnaire :). We have around 3 \"categories\" of sitters, depending on your needs, a Saturday evening hobby sitter is completely different from the one who takes care of the child when it is sick. Our portfolio of great and competent supervisors is as diverse as the situations are. We recommend parents to build a portfolio of several sitters so that you have one or two main sitters and a few in backup - this way, care is guaranteed at all times. Parents can get to know the sitter in advance at any time, if there is enough time to book, we also recommend this. Be it in person or on the virtual path. And should it not be enough, parents can trust it: Not only the Babsy crew put the sitters through their paces, but mostly many other Babsy parents too :) we hope that this will be a little more effective Creates security, should it not be enough to get to know the sitter beforehand." }
+               p { "And now: see you soon - we look forward to getting to know you! Your Babsy crew" }
+               p { "PS: INFORMATION: PLEASE ANSWER ALL QUESTIONS - FOR INFORMATION TO BE READ, ANSWER YES, OK OR UNDERSTOOD - THANK YOU!" }
+               label { "Understood - Thank you" }
+               input type="text" name="understood" placeholder="Understood - Thank you";
+   
+               h3 { "Babsy introduction video" }
+               p { "Please have a look on the video (watch it)" }
+               input type="radio" name="video_watched" value="yes" { "Yes, I have looked at it." }
+               input type="radio" name="video_watched" value="no" { "No, I haven't looked at it." }
+               a href="https://youtu.be/66RcN0rJ8ZA" { "https://youtu.be/66RcN0rJ8ZA" }
+   
+               label { "Your Civil Status" }
+               select name="civil_status" {
+                   option value="single" { "Single" }
+                   option value="married" { "Married" }
+                   option value="widowed" { "Widowed" }
+                   option value="divorced" { "Divorced" }
+                   option value="registered_partnership" { "In registered partnership" }
+                   option value="dissolved_partnership" { "Dissolved partnership" }
+                   option value="unmarried" { "Unmarried (*)" }
+               }
+               p { "The civil status \"Unmarried\" can arise as a consequence of an annulment of the last marriage or as a consequence of a declaration of disappearance of the last spouse." }
+   
+               label { "What is your Nationality" }
+               p { "For legal reasons, we can only mediate if you are Swiss or have a residence permit B or C. If you don't have this, please message to parent@babsy.ch - there might be solutions." }
+               input type="radio" name="nationality" value="swiss" { "Yes, I am Swiss" }
+               input type="radio" name="nationality" value="permit_b" { "Yes, I have a permit B" }
+               input type="radio" name="nationality" value="permit_c" { "Yes, I have a permit C" }
+   
+               label { "I got to know about Babsy via…" }
+               input type="text" name="referral" placeholder="Enter your answer";
+   
+               label { "Why do we ask if your child/ren have any allergies or special needs (sickness etc.) and who can see this?" }
+               p { "Explanation: For trainings etc. it is important that we sitters can sensitize them to many topics and also train in our trainings." }
+               input type="text" name="special_needs" placeholder="Special needs (sickness etc.)";
+   
+               label { "Are you a single parent?" }
+               p { "If so, get in touch with us, we can also offer help here and know institutions that provide support here." }
+               input type="radio" name="single_parent" value="yes" { "Yes" }
+               input type="radio" name="single_parent" value="no" { "No" }
+   
+               label { "Please upload a small family photo for your future profile (you have the chance to make pictures via Babsy e.g. at the \"meet & greet Events. If there are concerns, the children's face may e.g. be covered with a smiley. We are happy to let the sitters know who is the family, they are caring for." }
+               input type="file" name="family_photo";
+               p { "If you have it handy, upload it; if not, send it to the email address provided parent@babsy.ch." }
+               p { "ACHTUNG: Die zulässigen Dateierweiterungen sind: jpg, jpeg, png, pdf. Ist dies nicht der Fall, erhalten Sie die folgende Meldung: \"Dateierweiterung ist nicht erlaubt / File's extension is not allowed\"" }
+   
+               label { "Accident insurance for domestic workers is, vor non-club-members, compulsory, for employees who are subject to AHV and can be taken out from any Swiss insurer for around CHF 100.00 per year." }
+               p { "Do you have an accident insurance for housekeeping-staff?" }
+               input type="radio" name="accident_insurance" value="yes" { "Yes" }
+               input type="radio" name="accident_insurance" value="no" { "No" }
+               input type="radio" name="accident_insurance" value="others" { "Others" }
+   
+               p { "Attention, in the basic offers of \"Babsy-Budget\" and \"Babsy-trustee\", the parents are always the employers of the childcare workers and the provisions of the OR apply." }
+               p { "Information tariffs/hourly wages" }
+               p { "The sitters generally state the net wage. The net wage is the one that should be paid to them. Since Babsy parents usually take over the entire wage deductions in the easy process with \"Babsy-trustee\", the tariff in the sitter profiles (if OASI-duty additional the OASI-price) is the maximum that you can expect. The sitters are ready to negotiate and are happy to meet your desires, especially for long-term assignments." }
+               p { "Overview of Babsy-Offers" }
+               input type="text" name="overview" placeholder="ok";
+   
+               p { "We will inform you as soon as this is the case. If you would like to join the association anyway and would like to support us in this way, please return the signed membership form to us." }
+               label { "I agree to the TAC as well as all the legal conditions" }
+               input type="radio" name="tac_agreement" value="yes" { "Yes, I read them, and I agree" }
+               input type="radio" name="tac_agreement" value="no" { "No, I do not agree" }
+               input type="radio" name="tac_agreement" value="wait" { "I want to wait after the personal talk to decide this" }
+   
+               p { "Here are the App-Links:" }
+               a href="https://apps.apple.com" { "Click here for Apple" }
+               a href="https://play.google.com" { "Click here for Android" }
+   
+               label { "Hinweise / Notes" }
+               textarea name="notes" { "" }
+           }
+       }
+   }

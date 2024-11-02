@@ -4,7 +4,9 @@ use chrono::{Datelike, IsoWeek, NaiveDateTime, Weekday};
 use maud::{html, Markup};
 use rocket::{form::Form, response::content::RawHtml, State};
 
-use crate::persistence::super_babsys::SuperBabsys;
+use crate::{persistence::super_babsys::SuperBabsys, superbabsys::SuperBabsy};
+
+use super::UserType;
 
 #[derive(FromForm)]
 pub struct CurrentDate<'r> {
@@ -12,6 +14,8 @@ pub struct CurrentDate<'r> {
     date: &'r str,
     // the super babsy id
     id: &'r str,
+    // user type
+    user_type: &'r str,
 }
 
 #[post("/employees/hours", data = "<current_date>")]
@@ -32,13 +36,23 @@ pub fn hours_view_html(
     };
 
     let raw = html! {
-        ({hours_view(week_index, super_babsy.get_available_hours(from_date))});
+        ({hours_view(
+            super_babsy.clone(),
+            week_index,
+            super_babsy.get_available_hours(from_date),
+            current_date.user_type.to_string())}
+        );
     }
     .into_string();
     RawHtml(raw)
 }
 
-pub fn hours_view(week_index: IsoWeek, hours: Vec<NaiveDateTime>) -> Markup {
+pub fn hours_view(
+    super_babsy: SuperBabsy,
+    week_index: IsoWeek,
+    hours: Vec<NaiveDateTime>,
+    user_type: String
+) -> Markup {
     let mut week_map: HashMap<Weekday, Vec<NaiveDateTime>> = HashMap::new();
 
     hours.iter().for_each(|h| {
@@ -61,7 +75,7 @@ pub fn hours_view(week_index: IsoWeek, hours: Vec<NaiveDateTime>) -> Markup {
     entries.sort_by(|entry, other| entry.1.first().unwrap().cmp(other.1.first().unwrap()));
 
     html! {
-        div .grid {
+        div #main-content .grid {
             @for (day, hours) in entries {
                 article {
                     header {
@@ -70,7 +84,23 @@ pub fn hours_view(week_index: IsoWeek, hours: Vec<NaiveDateTime>) -> Markup {
                     body{
                         ul {
                             @for hour in hours {
-                                button ."hour-button"{ (hour.time().format("%H:%M")) }
+                                
+
+                                    form
+                                        hx-post="/booking"
+                                        hx-target="#main-content"
+                                        hx-swap="outerHTML"
+
+
+                                    {
+                                        input type="hidden" name="id" value=(super_babsy.id) {};
+                                        input type="hidden" name="date" value=(hour.format("%Y-%m-%d %H:%M:%S")) {};
+                                        input type="hidden" name="user_type" value=(user_type) {};
+                                        button
+                                            type="submit"
+                                            ."hour-button"
+                                                { (hour.time().format("%H:%M")) }
+                                    }
                             }
                         }
                     }
