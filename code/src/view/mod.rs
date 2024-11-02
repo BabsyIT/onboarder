@@ -4,7 +4,6 @@ use rocket::response::content;
 
 mod body;
 mod footer;
-mod header;
 pub mod onboarding_form;
 
 #[get("/?<user_type>")]
