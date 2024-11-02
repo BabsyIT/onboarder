@@ -71,7 +71,7 @@ pub fn form(user_type: UserType) -> Markup {
             }
 
             hr{};
-            
+
             label for="language" {"Sprache / Language"}
             select
                 id="language"
@@ -87,10 +87,10 @@ pub fn form(user_type: UserType) -> Markup {
 
 
             input
-                            type="hidden"
-                            name="user-type"
-                            value={(user_type.code())}
-                        {}
+                type="hidden"
+                name="user-type"
+                value={(user_type.code())}
+                {}
     }
          hr{};
 

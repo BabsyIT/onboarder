@@ -30,6 +30,7 @@ fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
         routes![
             view::index,
             view::onboarding_form::superbabsys::get_superbabsys,
+            view::onboarding_form::superbabsys::hours_view_html,
         ],
     );
 

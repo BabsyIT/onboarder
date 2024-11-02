@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use chrono::NaiveDate;
+use chrono::{NaiveDate, NaiveDateTime};
 
 use crate::superbabsys::{Availability, LanguageCompetency, SuperBabsy};
 
@@ -107,10 +107,11 @@ pub fn fake_mia() -> SuperBabsy {
 
 fn fake_availability_2() -> Availability {
     let mut availability = Availability::new();
+    let format = "%Y-%m-%d %H:%M:%S";
 
     availability.add_date(
-        NaiveDate::parse_from_str("2021-09-01", "%Y-%m-%d").unwrap(),
-        NaiveDate::parse_from_str("2027-01-01", "%Y-%m-%d").unwrap(),
+        NaiveDateTime::parse_from_str("2021-09-01 12:34:56", format).unwrap(),
+        NaiveDateTime::parse_from_str("2027-01-01 12:34:56", format).unwrap(),
     );
 
     availability
@@ -118,10 +119,11 @@ fn fake_availability_2() -> Availability {
 
 fn fake_availability() -> Availability {
     let mut availability = Availability::new();
+    let format = "%Y-%m-%d %H:%M:%S";
 
     availability.add_date(
-        NaiveDate::parse_from_str("2025-09-01", "%Y-%m-%d").unwrap(),
-        NaiveDate::parse_from_str("2027-01-01", "%Y-%m-%d").unwrap(),
+        NaiveDateTime::parse_from_str("2025-09-01 12:34:56", format).unwrap(),
+        NaiveDateTime::parse_from_str("2027-01-01 12:34:56", format).unwrap(),
     );
 
     availability

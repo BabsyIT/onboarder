@@ -1,4 +1,5 @@
-use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
+use chrono::{NaiveDate, NaiveDateTime, NaiveTime, TimeDelta};
+use rocket::futures::SinkExt;
 
 #[derive(Debug, Clone)]
 pub struct SuperBabsy {
@@ -21,11 +22,11 @@ impl Availability {
         Self { dates: vec![] }
     }
 
-    pub fn add_date(&mut self, from: NaiveDate, to: NaiveDate) {
+    pub fn add_date(&mut self, from: NaiveDateTime, to: NaiveDateTime) {
         self.dates.push(AvailabilityRange::new(from, to));
     }
 
-    pub fn get_available(&self, date: NaiveDate) -> bool {
+    pub fn get_available(&self, date: NaiveDateTime) -> bool {
         self.dates
             .iter()
             .any(|range| date >= range.from && date <= range.to)
@@ -34,13 +35,84 @@ impl Availability {
 
 #[derive(Debug, Clone)]
 pub struct AvailabilityRange {
-    from: NaiveDate,
-    to: NaiveDate,
+    from: NaiveDateTime,
+    to: NaiveDateTime,
 }
 
 impl AvailabilityRange {
-    pub fn new(from: NaiveDate, to: NaiveDate) -> Self {
+    pub fn new(from: NaiveDateTime, to: NaiveDateTime) -> Self {
         Self { from, to }
+    }
+
+    pub fn is_available(&self, date: NaiveDateTime) -> bool {
+        date >= self.from && date <= self.to
+    }
+
+    pub fn every_possible_hour(&self, from: NaiveDateTime) -> Vec<NaiveDateTime> {
+        // the from is decieded by the sitter/parent
+        // We only want forward looking hours
+        let mut start = from;
+        let end = self.to;
+        let mut hours = vec![];
+
+        while start < end {
+            hours.push(start);
+            start += TimeDelta::hours(1);
+        }
+        hours
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use chrono::TimeDelta;
+
+    #[test]
+    fn gets_all_hours_in_two_hours() {
+        let from =
+            NaiveDateTime::parse_from_str("2021-01-01 08:00:00", "%Y-%m-%d %H:%M:%S").unwrap();
+        let to = NaiveDateTime::parse_from_str("2021-01-01 10:00:00", "%Y-%m-%d %H:%M:%S").unwrap();
+        let range = AvailabilityRange::new(from, to);
+        let hours = range.every_possible_hour(from);
+        assert_eq!(hours.len(), 2);
+        assert_eq!(hours[0], from);
+        assert_eq!(
+            hours[1],
+            to.checked_sub_signed(TimeDelta::hours(1)).unwrap()
+        );
+    }
+
+    #[test]
+    fn gets_all_hours_in_two_days() {
+        let from =
+            NaiveDateTime::parse_from_str("2021-01-01 08:00:00", "%Y-%m-%d %H:%M:%S").unwrap();
+        let to = NaiveDateTime::parse_from_str("2021-01-02 10:00:00", "%Y-%m-%d %H:%M:%S").unwrap();
+        let range = AvailabilityRange::new(from, to);
+        let hours = range.every_possible_hour(from);
+        assert_eq!(hours.len(), 26);
+        assert_eq!(hours[0], from);
+        assert_eq!(
+            hours.last().unwrap(),
+            &to.checked_sub_signed(TimeDelta::hours(1)).unwrap()
+        );
+    }
+
+    #[test]
+    fn should_change_start_after_second_call() {
+        let from =
+            NaiveDateTime::parse_from_str("2021-01-01 08:00:00", "%Y-%m-%d %H:%M:%S").unwrap();
+        let to = NaiveDateTime::parse_from_str("2021-01-02 10:00:00", "%Y-%m-%d %H:%M:%S").unwrap();
+        let range = AvailabilityRange::new(from, to);
+        let _ = range.every_possible_hour(from);
+        let hours = range.every_possible_hour(from);
+
+        assert_eq!(hours.len(), 26);
+        assert_eq!(hours[0], from);
+        assert_eq!(
+            hours.last().unwrap(),
+            &to.checked_sub_signed(TimeDelta::hours(1)).unwrap()
+        );
     }
 }
 
@@ -136,6 +208,7 @@ impl SuperBabsy {
     }
 
     pub fn is_available(&self, date: NaiveDate) -> bool {
+        let date = NaiveDateTime::new(date, NaiveTime::from_hms_opt(0, 0, 0).unwrap());
         self.availability.get_available(date)
     }
 
@@ -145,5 +218,28 @@ impl SuperBabsy {
 
     pub fn get_parent(&self) -> Option<Vec<LanguageCompetency>> {
         self.parent.clone()
+    }
+
+    //returns all available hours from a given date toward the future
+    pub fn get_available_hours(&self, from: NaiveDateTime) -> Vec<NaiveDateTime> {
+        let mut available_hours: Vec<NaiveDateTime> = self
+            .availability
+            .dates
+            .iter()
+            .map(|range: &AvailabilityRange| {
+                if range.is_available(from) {
+                    range.every_possible_hour(from)
+                } else {
+                    Vec::new()
+                }
+            })
+            .flatten()
+            .collect();
+
+        available_hours.dedup();
+
+        available_hours.sort();
+
+        available_hours
     }
 }
