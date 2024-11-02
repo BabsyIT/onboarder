@@ -58,7 +58,6 @@ pub fn form() -> Markup {
                         value={(hour)} { (hour) }
                 }
             }
-            button type="Submit" { "Submit" }
     }
          hr{};
 
