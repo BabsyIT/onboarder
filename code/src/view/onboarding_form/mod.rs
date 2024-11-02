@@ -70,29 +70,8 @@ pub fn form(user_type: UserType) -> Markup {
                 }
             }
 
-
-            label for="from" {"From"}
-            select
-                name="from"
-            {
-                @for hour in hours.clone() {
-                    option
-                        value={(hour)} { (hour) }
-                }
-            }
-
-
-            label for="to" {"To"}
-            select
-                name="to"
-            {
-                @for hour in hours {
-                    option
-                        value={(hour)} { (hour) }
-                }
-            }
-
             hr{};
+            
             label for="language" {"Sprache / Language"}
             select
                 id="language"

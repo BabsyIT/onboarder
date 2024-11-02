@@ -25,10 +25,6 @@ pub struct DateWindow<'r> {
     friday: Option<&'r str>,
     #[field(name = "Sa")]
     saturday: Option<&'r str>,
-    //hours for example 8:00
-    from: &'r str,
-    //hours for example 21:00
-    to: &'r str,
     #[field(name = "user-type")]
     user_type: &'r str,
     language: &'r str,
@@ -42,8 +38,6 @@ pub fn get_superbabsys(
     let super_babsys = super_babsys.get_super_babsys();
 
     let date = date_window.date;
-    let from = date_window.from;
-    let to = date_window.to;
     let user_type = date_window.user_type;
     let language = date_window.language;
     let mon = date_window.monday.map(|f| f.to_string());
@@ -56,8 +50,6 @@ pub fn get_superbabsys(
     let only_available = only_available(
         super_babsys,
         date.to_string(),
-        from.to_string(),
-        to.to_string(),
         mon,
         tue,
         wed,
@@ -97,7 +89,7 @@ pub fn super_babsys_html(super_babsys: Vec<SuperBabsy>) -> Markup {
                        p { (super_babsy.description) }
                    }
                    footer {
-
+                       button hidden="true" { "" }
                    }
                }
            }
@@ -109,8 +101,6 @@ pub fn super_babsys_html(super_babsys: Vec<SuperBabsy>) -> Markup {
 fn only_available(
     super_babsys: Vec<SuperBabsy>,
     date: String,
-    from: String,
-    to: String,
     mon: Option<String>,
     tue: Option<String>,
     wed: Option<String>,
