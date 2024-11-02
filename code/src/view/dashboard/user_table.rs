@@ -27,7 +27,7 @@ pub fn generate(babsys: Vec<SuperBabsy>) -> Markup {
                             td { (babsy.parent_comp_as_string()) }
                             td { (babsy.sitter_comp_as_string()) }
                             td { (babsy.get_image_url_string_or_none()) }
-                            td { 
+                            td {
                                 div {
                                     details{
                                         summary { "Available days: " }
@@ -35,7 +35,7 @@ pub fn generate(babsys: Vec<SuperBabsy>) -> Markup {
                                         .get_available_dates_from_first()
                                         .iter().take(20)
                                         .map(|hour| hour.to_string())
-                                        .collect::<Vec<String>>().join(", ")) 
+                                        .collect::<Vec<String>>().join(", "))
                                     }
                                 }
                             }

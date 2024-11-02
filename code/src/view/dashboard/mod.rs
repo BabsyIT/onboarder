@@ -1,7 +1,11 @@
 use maud::{html, Markup};
 use rocket::{response::content, State};
 
-use crate::{bookings::Booking, persistence::{booking_requests::BookingRequests, super_babsys::SuperBabsys}, superbabsys::SuperBabsy};
+use crate::{
+    bookings::Booking,
+    persistence::{booking_requests::BookingRequests, super_babsys::SuperBabsys},
+    superbabsys::SuperBabsy,
+};
 
 use super::page;
 
@@ -9,19 +13,19 @@ mod booking_table;
 mod user_table;
 
 #[get("/admin?<tab>")]
-pub fn admin(tab: Option<String>, booking_requests: &State<BookingRequests>, superbabsys: &State<SuperBabsys>) -> content::RawHtml<String> {
+pub fn admin(
+    tab: Option<String>,
+    booking_requests: &State<BookingRequests>,
+    superbabsys: &State<SuperBabsys>,
+) -> content::RawHtml<String> {
     let tab = tab.unwrap_or("bookings".to_string());
     let bookings = booking_requests.get_booking_requests();
-    let superbabsys = superbabsys.get_super_babsys(); 
-    
-   let raw =  match tab.as_str() {
-        "bookings" => {
-           bookings_table(bookings)
-        },
-        "users" => {
-           user_table(superbabsys)
-        },
-        _ => bookings_table(bookings)
+    let superbabsys = superbabsys.get_super_babsys();
+
+    let raw = match tab.as_str() {
+        "bookings" => bookings_table(bookings),
+        "users" => user_table(superbabsys),
+        _ => bookings_table(bookings),
     };
 
     content::RawHtml(raw)
@@ -38,7 +42,6 @@ pub fn bookings_table(bookings: Vec<Booking>) -> String {
     .into_string()
 }
 
-
 pub fn user_table(superbabsys: Vec<SuperBabsy>) -> String {
     page(
         "Onboarding Dashboard".to_string(),
@@ -51,8 +54,8 @@ pub fn user_table(superbabsys: Vec<SuperBabsy>) -> String {
                     }
                 }
             }
-           
-        }
+
+        },
     )
     .into_string()
 }
@@ -69,7 +72,7 @@ pub fn body(bookings: Vec<Booking>) -> Markup {
     }
 }
 
-pub fn tabs()-> Markup {
+pub fn tabs() -> Markup {
     html! {
         header .container {
             nav{
@@ -88,6 +91,6 @@ pub fn tabs()-> Markup {
                 }
             }
         }
-        
+
     }
 }

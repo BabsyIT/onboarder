@@ -231,7 +231,7 @@ impl SuperBabsy {
     pub fn get_parent(&self) -> Option<Vec<LanguageCompetency>> {
         self.parent.clone()
     }
-    
+
     pub fn parent_comp_as_string(&self) -> String {
         match &self.parent {
             Some(p) => p
@@ -242,7 +242,7 @@ impl SuperBabsy {
             None => "None".to_string(),
         }
     }
-    
+
     pub fn sitter_comp_as_string(&self) -> String {
         match &self.sitter {
             Some(p) => p
@@ -253,19 +253,18 @@ impl SuperBabsy {
             None => "None".to_string(),
         }
     }
-    
+
     pub fn get_video_chat_link(&self) -> &str {
         &self.video_chat_link
     }
-    
+
     pub fn get_image_url(&self) -> Option<&str> {
         self.image_url.as_deref()
     }
-    pub fn get_image_url_string_or_none(&self)-> String {
+    pub fn get_image_url_string_or_none(&self) -> String {
         self.image_url.clone().unwrap_or("None".to_string())
     }
 
-    
     pub fn get_id(&self) -> uuid::Uuid {
         self.id
     }
@@ -297,7 +296,7 @@ impl SuperBabsy {
 
         available_hours
     }
-    
+
     pub fn get_available_dates_from_first(&self) -> Vec<NaiveDateTime> {
         let Some(first) = self.availability.dates.first() else {
             return Vec::new();
