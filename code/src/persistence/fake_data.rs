@@ -12,7 +12,7 @@ pub fn fake_data() -> HashMap<String, SuperBabsy> {
     let fake_aswin = fake_aswin();
     let fake_mia = fake_mia();
     let fake_steffi = fake_steffi();
-    
+
     babsy_map.insert(fake_andrea.id.to_string(), fake_andrea);
     babsy_map.insert(fake_catarina.id.to_string(), fake_catarina);
     babsy_map.insert(fake_aswin.id.to_string(), fake_aswin);
@@ -30,9 +30,15 @@ pub fn fake_andrea() -> SuperBabsy {
     "###.to_string());
 
     andrea.availability = fake_availability();
-    andrea.sitter = Some(vec![LanguageCompetency::german(), LanguageCompetency::english()]);
-    andrea.parent = Some(vec![LanguageCompetency::german(), LanguageCompetency::english()]);
-    
+    andrea.sitter = Some(vec![
+        LanguageCompetency::german(),
+        LanguageCompetency::english(),
+    ]);
+    andrea.parent = Some(vec![
+        LanguageCompetency::german(),
+        LanguageCompetency::english(),
+    ]);
+
     andrea
 }
 
@@ -45,7 +51,7 @@ pub fn fake_catarina() -> SuperBabsy {
     catarina.availability = fake_availability_2();
     catarina.sitter = Some(vec![LanguageCompetency::english()]);
     catarina.parent = Some(vec![LanguageCompetency::english()]);
-    
+
     catarina
 }
 
@@ -59,7 +65,7 @@ pub fn fake_aswin() -> SuperBabsy {
     aswin.availability = fake_availability_2();
     aswin.sitter = Some(vec![LanguageCompetency::english()]);
     aswin.parent = None;
-    
+
     aswin
 }
 
@@ -73,7 +79,7 @@ pub fn fake_steffi() -> SuperBabsy {
     steffi.availability = fake_availability();
     steffi.sitter = Some(vec![LanguageCompetency::english()]);
     steffi.parent = Some(vec![LanguageCompetency::german()]);
-    
+
     steffi
 }
 
@@ -86,10 +92,9 @@ pub fn fake_mia() -> SuperBabsy {
     mia.availability = fake_availability();
     mia.sitter = None;
     mia.parent = Some(vec![LanguageCompetency::german()]);
-    
+
     mia
 }
-
 
 fn fake_availability_2() -> Availability {
     let mut availability = Availability::new();
