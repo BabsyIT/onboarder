@@ -98,7 +98,7 @@ impl SuperBabsy {
             None => self.parent = Some(vec![lang]),
         }
     }
-    
+
     pub fn is_available(&self, date: NaiveDate) -> bool {
         self.availability.get_available(date)
     }

@@ -61,37 +61,37 @@ fn only_available(super_babsys: Vec<SuperBabsy>, date_window: DateWindow) -> Vec
     } else {
         vec![]
     };
-    
+
     let tuesdays = if date_window.tuesday.is_some() {
         generate_date_window(from_date, from_date + Duration::weeks(3), Weekday::Tue)
     } else {
         vec![]
     };
-    
+
     let wednesdays = if date_window.wednesday.is_some() {
         generate_date_window(from_date, from_date + Duration::weeks(3), Weekday::Wed)
     } else {
         vec![]
     };
-    
+
     let thursdays = if date_window.thursday.is_some() {
         generate_date_window(from_date, from_date + Duration::weeks(3), Weekday::Thu)
     } else {
         vec![]
     };
-    
+
     let fridays = if date_window.friday.is_some() {
         generate_date_window(from_date, from_date + Duration::weeks(3), Weekday::Fri)
     } else {
         vec![]
     };
-    
+
     let saturdays = if date_window.saturday.is_some() {
         generate_date_window(from_date, from_date + Duration::weeks(3), Weekday::Sat)
     } else {
         vec![]
     };
-    
+
     let mut user_availability = mondays
         .into_iter()
         .chain(tuesdays)
@@ -100,18 +100,21 @@ fn only_available(super_babsys: Vec<SuperBabsy>, date_window: DateWindow) -> Vec
         .chain(fridays)
         .chain(saturdays)
         .collect::<Vec<NaiveDate>>();
-        
+
     user_availability.dedup();
     println!("--------- User Availability ---------");
     println!("users: {user_availability:?}");
 
-    super_babsys.into_iter().filter(|babsy| 
-        user_availability.iter().any(|date| {
-           let res = babsy.is_available(*date);
-           println!("{} is available on {} {}", babsy.name, date, res);
-           res
-        }) 
-    ).collect()
+    super_babsys
+        .into_iter()
+        .filter(|babsy| {
+            user_availability.iter().any(|date| {
+                let res = babsy.is_available(*date);
+                println!("{} is available on {} {}", babsy.name, date, res);
+                res
+            })
+        })
+        .collect()
 }
 
 fn generate_date_window(

@@ -21,8 +21,6 @@ impl SuperBabsys {
 
 pub fn manage(rocket: Rocket<Build>) -> Rocket<Build> {
     let babsy_map = Arc::new(Mutex::new(fake_data::fake_data()));
-    let in_memory_super_babsy = SuperBabsys {
-         babsy_map,
-    };
+    let in_memory_super_babsy = SuperBabsys { babsy_map };
     rocket.manage(in_memory_super_babsy)
 }
