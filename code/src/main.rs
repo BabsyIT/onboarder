@@ -13,11 +13,11 @@ extern crate rocket;
 
 mod assets;
 mod bookings;
+mod fake_app;
 mod persistence;
 mod superbabsys;
 mod tec;
 mod view;
-mod fake_app;
 
 #[launch]
 fn rocket() -> _ {

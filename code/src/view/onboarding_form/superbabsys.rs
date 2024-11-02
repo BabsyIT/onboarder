@@ -68,7 +68,11 @@ pub fn get_superbabsys(
     }
 }
 
-pub fn super_babsys_html(super_babsys: Vec<SuperBabsy>, from_date: NaiveDateTime, user_type: String) -> Markup {
+pub fn super_babsys_html(
+    super_babsys: Vec<SuperBabsy>,
+    from_date: NaiveDateTime,
+    user_type: String,
+) -> Markup {
     let from_date = from_date.format("%Y-%m-%d %H:%M:%S").to_string();
 
     html! {

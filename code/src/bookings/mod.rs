@@ -1,6 +1,4 @@
-
 use chrono::NaiveDateTime;
-
 
 pub struct Booking {
     id: String,
@@ -24,7 +22,14 @@ pub struct Adress {
 }
 
 impl Adress {
-    pub fn new(street: String, house_number: String, canton: String, city: String, zip: String, country: String) -> Self {
+    pub fn new(
+        street: String,
+        house_number: String,
+        canton: String,
+        city: String,
+        zip: String,
+        country: String,
+    ) -> Self {
         Self {
             street,
             house_number,
@@ -34,7 +39,6 @@ impl Adress {
             country,
         }
     }
-    
 }
 
 pub enum IdCard {
@@ -48,7 +52,7 @@ impl Booking {
     pub fn get_id(&self) -> &String {
         &self.id
     }
-    
+
     pub fn new(
         id: String,
         date: NaiveDateTime,

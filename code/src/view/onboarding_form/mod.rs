@@ -6,8 +6,8 @@ use crate::superbabsys::LanguageCompetency;
 
 pub mod booking;
 pub mod hours;
-pub mod superbabsys;
 pub mod new_booking;
+pub mod superbabsys;
 
 pub enum UserType {
     Sitter,

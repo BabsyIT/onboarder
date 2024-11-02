@@ -16,7 +16,11 @@ impl BookingRequests {
         Self { booking_map }
     }
     pub fn add_booking_request(&self, booking_request: Booking) {
-      let _ = &self.booking_map.lock().unwrap().insert(booking_request.get_id().clone(), booking_request);
+        let _ = &self
+            .booking_map
+            .lock()
+            .unwrap()
+            .insert(booking_request.get_id().clone(), booking_request);
     }
 }
 

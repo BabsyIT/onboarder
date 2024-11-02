@@ -1,11 +1,18 @@
 use chrono::NaiveDateTime;
 use maud::html;
-use rocket::{form::Form, fs::TempFile, local::blocking, response::content::RawHtml, tokio::{io::AsyncReadExt, task::spawn_blocking}, State};
+use rocket::{
+    form::Form,
+    fs::TempFile,
+    local::blocking,
+    response::content::RawHtml,
+    tokio::{io::AsyncReadExt, task::spawn_blocking},
+    State,
+};
 
-use crate::{bookings::{Adress, Booking, IdCard}, persistence::booking_requests};
-
-
-
+use crate::{
+    bookings::{Adress, Booking, IdCard},
+    persistence::booking_requests,
+};
 
 #[derive(FromForm)]
 pub struct NewBookingData<'r> {
@@ -31,7 +38,7 @@ pub struct NewBookingData<'r> {
     // Land / Country
     country: &'r str,
     // Personalausweis Vorderseite (ID, Reisepass) / Identity Card front (ID, Passport)
-    id_front:  Option<TempFile<'r>>,
+    id_front: Option<TempFile<'r>>,
     // Personalausweis Rückseite (ID, Reisepass) / Identity Card back (ID, Passport)
     id_back: Option<TempFile<'r>>,
 }
@@ -40,11 +47,11 @@ pub struct NewBookingData<'r> {
 pub async fn new_booking(
     new_booking_data: Form<NewBookingData<'_>>,
     bookings: &State<booking_requests::BookingRequests>,
-)-> RawHtml<String> {
+) -> RawHtml<String> {
     let new_booking_data = new_booking_data.into_inner();
     let id = uuid::Uuid::new_v4().to_string();
     let date = NaiveDateTime::parse_from_str(new_booking_data.date, "%Y-%m-%d %H:%M:%S").unwrap();
-    
+
     let given_name = new_booking_data.first_name.to_string();
     let family_name = new_booking_data.last_name.to_string();
     let email = new_booking_data.email.to_string();
@@ -55,23 +62,33 @@ pub async fn new_booking(
     let city = new_booking_data.city.to_string();
     let zip = new_booking_data.postal_code.to_string();
     let country = new_booking_data.country.to_string();
-  
+
     let mut pictures: Vec<IdCard> = vec![];
-   
-    if let Some(front)= new_booking_data.id_front {
-         let mut front_buffer = String::new();
-        let _ = front.open().await.unwrap().read_to_string(&mut front_buffer).await;
+
+    if let Some(front) = new_booking_data.id_front {
+        let mut front_buffer = String::new();
+        let _ = front
+            .open()
+            .await
+            .unwrap()
+            .read_to_string(&mut front_buffer)
+            .await;
         pictures.push(IdCard::Jpg(front_buffer));
     }
-    
-    if let Some(back)= new_booking_data.id_back {
+
+    if let Some(back) = new_booking_data.id_back {
         let mut back_buffer = String::new();
-        let _ = back.open().await.unwrap().read_to_string(&mut back_buffer).await;
+        let _ = back
+            .open()
+            .await
+            .unwrap()
+            .read_to_string(&mut back_buffer)
+            .await;
         pictures.push(IdCard::Jpg(back_buffer));
     }
 
     let message = "".to_string();
-    
+
     let booking = Booking::new(
         id.clone(),
         date,
@@ -84,13 +101,12 @@ pub async fn new_booking(
         message,
     );
     bookings.add_booking_request(booking);
-    
-    
-   let raw = html!{
+
+    let raw = html! {
            article {
              header {
                    h1 { "Vielen Dank für Ihre Buchungsanfrage!" }
-             }   
+             }
              body{
                  p { "Wir werden uns so bald wie moeglich melden" }
                  p { "Du wirst eine Bestätigung von der Super Babsy bekommen" }
@@ -99,15 +115,15 @@ pub async fn new_booking(
              footer {
                  p { "Danke für Ihr Vertrauen" }
              }
-           }  
-       
-       
+           }
+
+
            article {
              header {
                    h1 { "Thank you for your booking request!"  }
-             }   
+             }
              body{
-         
+
                  p { "We will get back to you as soon as possible." }
                  p { "You will receive a confirmation email from the Super Babsy." }
                  p { "Please check your spam folder if you do not receive an email." }
@@ -115,9 +131,9 @@ pub async fn new_booking(
              footer {
                  p { "Thank you for your trust!" }
              }
-           }  
-       
-     
+           }
+
+
     };
     RawHtml(raw.into_string())
 }

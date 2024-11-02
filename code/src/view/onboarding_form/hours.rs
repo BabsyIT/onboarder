@@ -51,7 +51,7 @@ pub fn hours_view(
     super_babsy: SuperBabsy,
     week_index: IsoWeek,
     hours: Vec<NaiveDateTime>,
-    user_type: String
+    user_type: String,
 ) -> Markup {
     let mut week_map: HashMap<Weekday, Vec<NaiveDateTime>> = HashMap::new();
 
@@ -84,7 +84,7 @@ pub fn hours_view(
                     body{
                         ul {
                             @for hour in hours {
-                                
+
 
                                     form
                                         hx-post="/booking"
