@@ -1,9 +1,38 @@
 use chrono::Utc;
 use maud::{html, Markup};
 
+use crate::superbabsys::LanguageCompetency;
+
 pub mod superbabsys;
 
-pub fn form() -> Markup {
+pub enum UserType {
+    Sitter,
+    Parent,
+}
+
+impl UserType {
+    pub fn code(&self) -> String {
+        match self {
+            UserType::Sitter => "sitter".to_string(),
+            UserType::Parent => "parent".to_string(),
+        }
+    }
+}
+
+impl TryFrom<String> for UserType {
+    type Error = String;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        match value.as_str() {
+            "sitter" => Ok(UserType::Sitter),
+            "parent" => Ok(UserType::Parent),
+            _ => Err("Invalid user type".to_string()),
+        }
+    }
+}
+
+pub fn form(user_type: UserType) -> Markup {
+    let langs = vec![LanguageCompetency::german(), LanguageCompetency::english()];
     let dt = Utc::now();
 
     // Format the datetime to the required string format
@@ -49,6 +78,24 @@ pub fn form() -> Markup {
                         value={(hour)} { (hour) }
                 }
             }
+
+            input
+                type="hidden"
+                name="user-type"
+                value={(user_type.code())}
+            {}
+
+            select
+                name="language"
+                value="german"
+            {
+                @for lang in langs {
+                    option
+                        value={(lang.code())} { (lang.name()) }
+                }
+
+            }
+
 
             select
                 name="to"

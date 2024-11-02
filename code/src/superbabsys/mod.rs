@@ -43,16 +43,48 @@ impl AvailabilityRange {
     }
 }
 
-#[derive(Debug, Clone)]
-pub struct Both {
-    sitter: Vec<LanguageCompetency>,
-    parent: Vec<LanguageCompetency>,
-}
-
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct LanguageCompetency {
     id: i32,
+    code: String,
     name: String,
+}
+
+impl TryFrom<String> for LanguageCompetency {
+    type Error = String;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        match value.as_str() {
+            "en" => Ok(Self::english()),
+            "de" => Ok(Self::german()),
+            _ => Err("Invalid language competency".to_string()),
+        }
+    }
+}
+
+impl LanguageCompetency {
+    pub fn english() -> Self {
+        Self {
+            id: 1,
+            code: "en".to_string(),
+            name: "English".to_string(),
+        }
+    }
+    pub fn german() -> Self {
+        Self {
+            id: 2,
+            code: "de".to_string(),
+            name: "German".to_string(),
+        }
+    }
+
+    pub fn name(&self) -> &str {
+        &self.name
+    }
+
+    pub fn code(&self) -> &str {
+        &self.code
+    }
 }
 
 impl SuperBabsy {
@@ -101,5 +133,13 @@ impl SuperBabsy {
 
     pub fn is_available(&self, date: NaiveDate) -> bool {
         self.availability.get_available(date)
+    }
+
+    pub fn get_sitter(&self) -> Option<Vec<LanguageCompetency>> {
+        self.sitter.clone()
+    }
+
+    pub fn get_parent(&self) -> Option<Vec<LanguageCompetency>> {
+        self.parent.clone()
     }
 }

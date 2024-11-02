@@ -1,4 +1,5 @@
 use maud::{html, Markup, PreEscaped};
+use onboarding_form::UserType;
 use rocket::response::content;
 
 mod body;
@@ -6,13 +7,15 @@ mod footer;
 mod header;
 pub mod onboarding_form;
 
-#[get("/")]
-pub fn index() -> content::RawHtml<String> {
+#[get("/?<user_type>")]
+pub fn index(user_type: Option<String>) -> content::RawHtml<String> {
+    let user_type = user_type.unwrap_or("sitter".to_string());
+    let user_type = UserType::try_from(user_type).unwrap_or(UserType::Sitter);
+
     let raw = page(html! {
         div hx-get="/refresh" hx-trigger="every 10000ms" {}
-        ({body::body()})
+        ({body::body(user_type)})
         ({footer::footer()})
-
     })
     .into_string();
     content::RawHtml(raw)

@@ -2,11 +2,13 @@ use maud::{html, Markup};
 
 use crate::view::onboarding_form;
 
-pub fn body() -> Markup {
+use super::onboarding_form::UserType;
+
+pub fn body(user_type: UserType) -> Markup {
     html! {
         body {
             main .container {
-                {(onboarding_form::form())}
+                {(onboarding_form::form(user_type))}
             }
         }
     }
