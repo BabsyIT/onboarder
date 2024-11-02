@@ -22,6 +22,10 @@ impl BookingRequests {
             .unwrap()
             .insert(booking_request.get_id().clone(), booking_request);
     }
+
+    pub fn get_booking_requests(&self) -> Vec<Booking> {
+        self.booking_map.lock().unwrap().values().cloned().collect()
+    }
 }
 
 pub fn manage(rocket: Rocket<Build>) -> Rocket<Build> {

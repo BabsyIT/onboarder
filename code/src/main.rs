@@ -3,6 +3,7 @@ use std::env;
 use assets::mount_assets;
 use rocket::{Build, Rocket};
 use tec::mount_tec;
+use view::dashboard;
 use view::onboarding_form::booking::bookings_view_html;
 use view::onboarding_form::hours::hours_view_html;
 use view::onboarding_form::new_booking;
@@ -39,7 +40,8 @@ fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
             hours_view_html,
             bookings_view_html,
             new_booking::new_booking,
-            fake_app::fake_app
+            fake_app::fake_app,
+            dashboard::admin
         ],
     );
 

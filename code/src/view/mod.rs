@@ -3,6 +3,7 @@ use onboarding_form::UserType;
 use rocket::response::content;
 
 mod body;
+pub mod dashboard;
 mod footer;
 pub mod onboarding_form;
 
@@ -11,11 +12,14 @@ pub fn index(user_type: Option<String>) -> content::RawHtml<String> {
     let user_type = user_type.unwrap_or("sitter".to_string());
     let user_type = UserType::try_from(user_type).unwrap_or(UserType::Sitter);
 
-    let raw = page(html! {
-        div hx-get="/refresh" hx-trigger="every 10000ms" {}
-        ({body::body(user_type)})
-        ({footer::footer()})
-    })
+    let raw = page(
+        "Babsy Onboarding".to_string(),
+        html! {
+            div hx-get="/refresh" hx-trigger="every 10000ms" {}
+            ({body::body(user_type)})
+            ({footer::footer()})
+        },
+    )
     .into_string();
     content::RawHtml(raw)
 }
@@ -29,13 +33,13 @@ const FONTS: &str = r###"
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">"###;
 
-pub fn page(markup: Markup) -> Markup {
+pub fn page(titlex: String, markup: Markup) -> Markup {
     html! {
        html data-theme="light" ."ubuntu-regular"  {
 
             head {
                 ({scripts()})
-                ({title("Babsy Onboarding")})
+                ({title(titlex)})
             }
 
             body {
