@@ -5,18 +5,11 @@ edition = "2021"
 
 
 [dependencies]
-rocket ={version = "0.5.0"}
-maud = {version = "0.25"}
-webbrowser = "1.0.2"
-chrono="0.4.38"
+rocket ={ version = "0.5.0" } 
+maud = { version = "0.25" }
+chrono ="0.4.38"
+uuid = { version ="1.11.0", features = ["v4", "fast-rng", "macro-diagnostics"] }
 
-[dependencies.uuid]
-version = "1.11.0"
-features = [
-    "v4",                # Lets you generate random UUIDs
-    "fast-rng",          # Use a faster (but still sufficiently random) RNG
-    "macro-diagnostics", # Enable better diagnostics for compile-time UUIDs
-]
 
 [profile.dev]
 opt-level = 0
