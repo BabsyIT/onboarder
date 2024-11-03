@@ -33,9 +33,7 @@ pub fn fake_andrea() -> SuperBabsy {
     "###.to_string());
 
     andrea.availability = fake_availability();
-    andrea.sitter = Some(vec![
-        LanguageCompetency::german(),
-    ]);
+    andrea.sitter = Some(vec![LanguageCompetency::german()]);
     andrea.parent = Some(vec![
         LanguageCompetency::german(),
         LanguageCompetency::english(),

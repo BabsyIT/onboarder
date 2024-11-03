@@ -53,7 +53,6 @@ pub fn hours_view(
 ) -> Markup {
     let mut week_map: HashMap<Weekday, Vec<NaiveDateTime>> = HashMap::new();
 
-
     hours.iter().for_each(|h| {
         let week = h.iso_week();
         let day = h.weekday();
