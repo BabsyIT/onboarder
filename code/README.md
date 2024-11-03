@@ -142,3 +142,6 @@ When writing an applicaton in rust with rocket you get consistency, reproducabil
 By embedding core frontend libraries you can preserve the benefits eventhough you depend on java script libraries.
 On top of that the code has a single source of ecosystem dependencies, crates.io.
 
+### Every dependency must fight for its life
+
+When possible the code should not depend on a library.
