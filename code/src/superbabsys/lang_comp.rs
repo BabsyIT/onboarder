@@ -12,6 +12,7 @@ impl TryFrom<String> for LanguageCompetency {
         match value.as_str() {
             "en" => Ok(Self::english()),
             "de" => Ok(Self::german()),
+            "pt" => Ok(Self::portuguese()),
             _ => Err("Invalid language competency".to_string()),
         }
     }
@@ -30,6 +31,14 @@ impl LanguageCompetency {
             id: 2,
             code: "de".to_string(),
             name: "German".to_string(),
+        }
+    }
+
+    pub fn portuguese() -> Self {
+        Self {
+            id: 3,
+            code: "pt".to_string(),
+            name: "Portuguese".to_string(),
         }
     }
 

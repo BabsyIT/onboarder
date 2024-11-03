@@ -52,8 +52,14 @@ pub fn fake_catarina() -> SuperBabsy {
     "###.to_string());
 
     catarina.availability = fake_availability_2();
-    catarina.sitter = Some(vec![LanguageCompetency::english()]);
-    catarina.parent = Some(vec![LanguageCompetency::english()]);
+    catarina.sitter = Some(vec![
+        LanguageCompetency::english(),
+        LanguageCompetency::portuguese(),
+    ]);
+    catarina.parent = Some(vec![
+        LanguageCompetency::english(),
+        LanguageCompetency::portuguese(),
+    ]);
     catarina.image_url =
         Some("https://babsy.ch/wp-content/uploads/2022/07/Catarina.jpg".to_string());
 

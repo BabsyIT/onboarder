@@ -35,7 +35,11 @@ impl TryFrom<String> for UserType {
 }
 
 pub fn form(user_type: UserType) -> Markup {
-    let langs = vec![LanguageCompetency::german(), LanguageCompetency::english()];
+    let langs = vec![
+        LanguageCompetency::german(),
+        LanguageCompetency::english(),
+        LanguageCompetency::portuguese(),
+    ];
     let dt = Utc::now();
 
     // Format the datetime to the required string format
@@ -54,7 +58,8 @@ pub fn form(user_type: UserType) -> Markup {
                 hx-swap="outerHTML"
         {
 
-            label for="date" {"Ich bin verfügbar am oder nach / I'm available on or after"}
+            h3 {"Aufnahme Gespräch / Onboarding appointment"}
+            label for="date" {"Meine Verfügbarkeit / My availability"}
             input
                 type="date"
                 id="date"
