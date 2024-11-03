@@ -2,6 +2,9 @@
 name = "onboarder"
 version = "0.1.0"
 edition = "2021"
+authors = ["Silen Locatelli", "Babsy", "BabsScale Team Basel Hack"]
+license-file = "LICENSE"
+description = "An onboarder for the Babsy platform"
 
 
 [dependencies]
