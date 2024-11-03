@@ -1,5 +1,10 @@
 # BaselHack 2024 - Babsy - onboarder
 
+
+In this readme you will find out how the challenge played out.
+For the readme on the code go to [code/README.md](code/README.md)
+
+
 ## Description
 
 This app will help to not loose sitters or parents when they sign up in the mobile app.
