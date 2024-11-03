@@ -40,6 +40,7 @@ pub fn bookings_view_html(
                 input type="hidden" name="date" value=(from_date);
                 input type="hidden" name="user_type" value=(user_type);
 
+                ({title()})
                 ({inputs()})
 
                     @if user_type == "parent" {
@@ -57,6 +58,12 @@ pub fn bookings_view_html(
     }
     .into_string();
     RawHtml(raw)
+}
+
+fn title() -> Markup {
+    html! {
+        h3 { "Onboaring form" }
+    }
 }
 
 fn inputs() -> Markup {

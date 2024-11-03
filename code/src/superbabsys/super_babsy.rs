@@ -1,4 +1,4 @@
-use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
+use chrono::{NaiveDate, NaiveDateTime};
 
 use super::{Availability, AvailabilityRange, LanguageCompetency};
 

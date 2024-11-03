@@ -1,4 +1,4 @@
-use chrono::{Datelike, NaiveDate, NaiveDateTime, TimeDelta, Timelike, Weekday};
+use chrono::{Datelike, NaiveDate, NaiveDateTime, TimeDelta, Weekday};
 
 #[derive(Debug, Clone)]
 pub struct Availability {

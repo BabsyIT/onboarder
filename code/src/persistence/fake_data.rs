@@ -117,6 +117,11 @@ fn fake_availability_2() -> Availability {
         NaiveDateTime::parse_from_str("2024-11-04 17:00:00", format).unwrap(),
     );
 
+    availability.add_date(
+        NaiveDateTime::parse_from_str("2024-11-05 10:00:00", format).unwrap(),
+        NaiveDateTime::parse_from_str("2024-11-05 13:00:00", format).unwrap(),
+    );
+
     availability
 }
 
@@ -125,12 +130,12 @@ fn fake_availability() -> Availability {
     let format = "%Y-%m-%d %H:%M:%S";
 
     availability.add_date(
-        NaiveDateTime::parse_from_str("2024-09-01 11:34:56", format).unwrap(),
-        NaiveDateTime::parse_from_str("2024-09-01 12:34:56", format).unwrap(),
+        NaiveDateTime::parse_from_str("2024-11-07 11:34:56", format).unwrap(),
+        NaiveDateTime::parse_from_str("2025-09-01 12:34:56", format).unwrap(),
     );
 
     availability.add_date(
-        NaiveDateTime::parse_from_str("2025-09-01 12:34:56", format).unwrap(),
+        NaiveDateTime::parse_from_str("2026-09-01 12:34:56", format).unwrap(),
         NaiveDateTime::parse_from_str("2027-01-01 12:34:56", format).unwrap(),
     );
 
