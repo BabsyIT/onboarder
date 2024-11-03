@@ -7,6 +7,12 @@
 run *args:
     cargo run -q -- {{args}}
 
+install:
+    cargo install --path .
+    
+rr:
+    onboarder
+    
 kill:
     kill $(lsof -t -i:8000)
     
