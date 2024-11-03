@@ -101,7 +101,7 @@ mod tests {
     }
 
     #[test]
-    fn should_change_start_after_second_call() {
+    fn should_not_change_start_after_second_call() {
         let from =
             NaiveDateTime::parse_from_str("2021-01-01 08:00:00", "%Y-%m-%d %H:%M:%S").unwrap();
         let to = NaiveDateTime::parse_from_str("2021-01-02 10:00:00", "%Y-%m-%d %H:%M:%S").unwrap();
