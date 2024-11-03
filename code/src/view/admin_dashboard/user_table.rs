@@ -29,12 +29,9 @@ pub fn generate(babsys: Vec<SuperBabsy>) -> Markup {
                             td {
                                 div {
                                     details{
-                                        summary { "Available days: " }
-                                        (babsy
-                                        .get_available_dates_from_first()
-                                        .iter().take(20)
-                                        .map(|hour| hour.to_string())
-                                        .collect::<Vec<String>>().join(", "))
+                                        summary { "available hours: " }
+                                        {(hours(babsy))}
+                                        "..."
                                     }
                                 }
                             }
@@ -43,5 +40,24 @@ pub fn generate(babsys: Vec<SuperBabsy>) -> Markup {
                 }
             }
         }
+    }
+}
+
+pub fn hours(babsy: SuperBabsy)-> Markup{
+    let babsy = babsy
+    .get_available_dates_from_first()
+    .into_iter().take(20)
+    .map(|hour| hour.to_string());
+    
+    html!{
+        ul{
+            @for hour in babsy {
+                li{
+                    p .hour { (hour) }
+                }
+            }
+            
+        }
+        
     }
 }

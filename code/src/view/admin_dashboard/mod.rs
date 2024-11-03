@@ -98,7 +98,7 @@ pub fn tabs() -> Markup {
                         a href="/admin?tab=bookings" { "Bookings" }
                     }
                     li{
-                        a href="/admin?tab=users" { "Users" }
+                        a href="/admin?tab=users" { "SuperBabsys" }
                     }
                 }
             }

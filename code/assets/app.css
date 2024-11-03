@@ -6,6 +6,9 @@
     padding-bottom: 3px;
 }
 
+.hour{
+    font-size: 12px;
+}
 
 .th{
     position: sticky
