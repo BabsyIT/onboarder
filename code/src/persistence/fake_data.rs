@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use chrono::NaiveDateTime;
 
 use crate::{
-    bookings::{Adress, Booking, BookingState},
+    bookings::{Address, Booking, BookingState},
     superbabsys::{Availability, LanguageCompetency, SuperBabsy},
 };
 
@@ -141,7 +141,7 @@ pub fn fake_booking() -> Booking {
         "Hack".to_owned(),
         "info@basel-hack.ch".to_owned(),
         "".to_owned(),
-        Adress::new(
+        Address::new(
             "Diagon Alley".to_owned(),
             "1".to_owned(),
             "Probably Aargau".to_owned(),

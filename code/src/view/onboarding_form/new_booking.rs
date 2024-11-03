@@ -5,7 +5,7 @@ use rocket::{
 };
 
 use crate::{
-    bookings::{Adress, Booking, BookingState, IdCard},
+    bookings::{Address, Booking, BookingState, IdCard},
     persistence::booking_requests,
 };
 
@@ -92,7 +92,7 @@ pub async fn new_booking(
         family_name,
         email,
         phone,
-        Adress::new(street, house_number, canton, city, zip, country),
+        Address::new(street, house_number, canton, city, zip, country),
         pictures,
         BookingState::Pending,
     );

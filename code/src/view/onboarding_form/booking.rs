@@ -222,7 +222,7 @@ fn for_sitter() -> Markup {
 
 
                   selecion{
-                      label { "Do you have references? Please state with first name, surname, adress, telephonenumber and E-Mail of the reference, please inform people in advance. Please send more references to sitter@babsy.ch" }
+                      label { "Do you have references? Please state with first name, surname, address, telephonenumber and E-Mail of the reference, please inform people in advance. Please send more references to sitter@babsy.ch" }
                       option value="yes" { "Yes" }
                       option value="no" { "No" }
                   }
@@ -304,7 +304,7 @@ fn for_sitter() -> Markup {
                               input type="text" name="net_rate" { }
 
                               input type="text" name="bank" placeholder="Bank name" {}
-                              input type="text" name="bank_address" placeholder="Bank adress" {}
+                              input type="text" name="bank_address" placeholder="Bank address" {}
                               input type="text" name="IBAN" placeholder="IBAN" {}
 
                             input type="checkbox" name="no_photo_understood" {
