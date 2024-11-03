@@ -55,7 +55,6 @@ impl SuperBabsy {
     }
 
     pub fn is_available(&self, date: NaiveDate) -> bool {
-        let date = NaiveDateTime::new(date, NaiveTime::from_hms_opt(0, 0, 0).unwrap());
         self.availability.get_available(date)
     }
 
@@ -113,18 +112,12 @@ impl SuperBabsy {
             .get_availability()
             .get_dates()
             .iter()
-            .flat_map(|range: &AvailabilityRange| {
-                if range.is_available(from) {
-                    range.every_possible_hour(from)
-                } else {
-                    Vec::new()
-                }
-            })
+            .flat_map(|range: &AvailabilityRange| range.every_possible_hour(from))
             .collect();
 
-        available_hours.dedup();
-
         available_hours.sort();
+
+        available_hours.dedup();
 
         available_hours
     }

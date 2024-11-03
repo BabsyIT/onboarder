@@ -113,8 +113,8 @@ fn fake_availability_2() -> Availability {
     let format = "%Y-%m-%d %H:%M:%S";
 
     availability.add_date(
-        NaiveDateTime::parse_from_str("2021-09-01 12:34:56", format).unwrap(),
-        NaiveDateTime::parse_from_str("2027-01-01 12:34:56", format).unwrap(),
+        NaiveDateTime::parse_from_str("2024-11-04 12:00:00", format).unwrap(),
+        NaiveDateTime::parse_from_str("2024-11-04 17:00:00", format).unwrap(),
     );
 
     availability
@@ -123,6 +123,11 @@ fn fake_availability_2() -> Availability {
 fn fake_availability() -> Availability {
     let mut availability = Availability::new();
     let format = "%Y-%m-%d %H:%M:%S";
+
+    availability.add_date(
+        NaiveDateTime::parse_from_str("2024-09-01 11:34:56", format).unwrap(),
+        NaiveDateTime::parse_from_str("2024-09-01 12:34:56", format).unwrap(),
+    );
 
     availability.add_date(
         NaiveDateTime::parse_from_str("2025-09-01 12:34:56", format).unwrap(),

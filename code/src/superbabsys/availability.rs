@@ -1,4 +1,4 @@
-use chrono::{Datelike, NaiveDateTime, TimeDelta, Weekday};
+use chrono::{Datelike, NaiveDate, NaiveDateTime, TimeDelta, Timelike, Weekday};
 
 #[derive(Debug, Clone)]
 pub struct Availability {
@@ -18,10 +18,10 @@ impl Availability {
         self.dates.push(AvailabilityRange::new(from, to));
     }
 
-    pub fn get_available(&self, date: NaiveDateTime) -> bool {
+    pub fn get_available(&self, date: NaiveDate) -> bool {
         self.dates
             .iter()
-            .any(|range| date >= range.from && date <= range.to)
+            .any(|range| date >= range.from.date() && date <= range.to.date())
     }
 }
 
@@ -59,6 +59,7 @@ impl AvailabilityRange {
         let without_sundays: Vec<NaiveDateTime> = hours
             .into_iter()
             .filter(|date| date.weekday() != Weekday::Sun)
+            .filter(|date| date >= &self.from)
             .collect();
         without_sundays
     }
