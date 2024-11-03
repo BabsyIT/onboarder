@@ -205,20 +205,6 @@ impl SuperBabsy {
         )
     }
 
-    pub fn add_language_to_sitter_comp(&mut self, lang: LanguageCompetency) {
-        match &mut self.sitter {
-            Some(s) => s.push(lang),
-            None => self.sitter = Some(vec![lang]),
-        }
-    }
-
-    pub fn add_language_to_parent_comp(&mut self, lang: LanguageCompetency) {
-        match &mut self.parent {
-            Some(s) => s.push(lang),
-            None => self.parent = Some(vec![lang]),
-        }
-    }
-
     pub fn is_available(&self, date: NaiveDate) -> bool {
         let date = NaiveDateTime::new(date, NaiveTime::from_hms_opt(0, 0, 0).unwrap());
         self.availability.get_available(date)
@@ -254,13 +240,6 @@ impl SuperBabsy {
         }
     }
 
-    pub fn get_video_chat_link(&self) -> &str {
-        &self.video_chat_link
-    }
-
-    pub fn get_image_url(&self) -> Option<&str> {
-        self.image_url.as_deref()
-    }
     pub fn get_image_url_string_or_none(&self) -> String {
         self.image_url.clone().unwrap_or("None".to_string())
     }
@@ -306,7 +285,7 @@ impl SuperBabsy {
             .dates
             .iter()
             .flat_map(|range: &AvailabilityRange| {
-                if range.is_available(first.from.clone()) {
+                if range.is_available(first.from) {
                     range.every_possible_hour(first.from)
                 } else {
                     Vec::new()

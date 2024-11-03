@@ -3,7 +3,7 @@ use std::env;
 use assets::mount_assets;
 use rocket::{Build, Rocket};
 use tec::mount_tec;
-use view::dashboard;
+use view::admin_dashboard;
 use view::onboarding_form::booking::bookings_view_html;
 use view::onboarding_form::hours::hours_view_html;
 use view::onboarding_form::new_booking;
@@ -35,13 +35,16 @@ fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
     let with_index = rocket.mount(
         "/",
         routes![
+            fake_app::fake_app,
             view::index,
             get_superbabsys,
             hours_view_html,
             bookings_view_html,
             new_booking::new_booking,
-            fake_app::fake_app,
-            dashboard::admin
+            admin_dashboard::admin,
+            admin_dashboard::delete_booking::delete_booking,
+            admin_dashboard::confirm_booking::confirm_booking,
+            admin_dashboard::reject_booking::reject_booking,
         ],
     );
 

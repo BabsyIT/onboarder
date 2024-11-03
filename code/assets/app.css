@@ -11,6 +11,10 @@
     position: sticky
 }
 
+.action-button{
+    width: 110%;
+    height: 110%;
+}
 
 .day-checkbox{
     margin-left: 10px;

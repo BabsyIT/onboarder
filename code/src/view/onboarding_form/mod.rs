@@ -1,6 +1,5 @@
 use chrono::Utc;
 use maud::{html, Markup};
-use rocket::response::content::RawHtml;
 
 use crate::superbabsys::LanguageCompetency;
 
@@ -100,9 +99,4 @@ pub fn form(user_type: UserType) -> Markup {
 
          }
         }
-}
-
-#[post("/empty")]
-pub fn empty() -> RawHtml<String> {
-    RawHtml("".to_string())
 }

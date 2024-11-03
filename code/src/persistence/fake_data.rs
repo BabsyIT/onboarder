@@ -2,7 +2,10 @@ use std::collections::HashMap;
 
 use chrono::NaiveDateTime;
 
-use crate::superbabsys::{Availability, LanguageCompetency, SuperBabsy};
+use crate::{
+    bookings::{Adress, Booking, BookingState},
+    superbabsys::{Availability, LanguageCompetency, SuperBabsy},
+};
 
 pub fn fake_data() -> HashMap<String, SuperBabsy> {
     let mut babsy_map = HashMap::new();
@@ -127,4 +130,26 @@ fn fake_availability() -> Availability {
     );
 
     availability
+}
+
+pub fn fake_booking() -> Booking {
+    Booking::new(
+        uuid::Uuid::new_v4().to_string(),
+        uuid::Uuid::new_v4().to_string(),
+        NaiveDateTime::MIN,
+        "Basel".to_owned(),
+        "Hack".to_owned(),
+        "info@basel-hack.ch".to_owned(),
+        "".to_owned(),
+        Adress::new(
+            "Diagon Alley".to_owned(),
+            "1".to_owned(),
+            "Probably Aargau".to_owned(),
+            "Oftringen".to_owned(),
+            "4665".to_owned(),
+            "CH".to_owned(),
+        ),
+        vec![],
+        BookingState::Pending,
+    )
 }

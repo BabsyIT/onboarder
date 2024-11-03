@@ -2,8 +2,8 @@ use maud::{html, Markup, PreEscaped};
 use onboarding_form::UserType;
 use rocket::response::content;
 
+pub mod admin_dashboard;
 mod body;
-pub mod dashboard;
 mod footer;
 pub mod onboarding_form;
 

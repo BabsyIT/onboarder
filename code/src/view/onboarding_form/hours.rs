@@ -6,8 +6,6 @@ use rocket::{form::Form, response::content::RawHtml, State};
 
 use crate::{persistence::super_babsys::SuperBabsys, superbabsys::SuperBabsy};
 
-use super::UserType;
-
 #[derive(FromForm)]
 pub struct CurrentDate<'r> {
     //the date they are available from

@@ -1,5 +1,5 @@
 use chrono::NaiveDateTime;
-use maud::{html, Markup, PreEscaped};
+use maud::{html, Markup};
 use rocket::{form::Form, response::content::RawHtml, State};
 
 use crate::persistence::super_babsys::SuperBabsys;
@@ -36,7 +36,7 @@ pub fn bookings_view_html(
         div #main-content {
             form hx-post="/booking/new" hx-target="#main-content" hx-swap="outerHTML" {
 
-                input type="hidden" name="id" value=(super_babsy.id);
+                input type="hidden" name="super_babsy_id" value=(super_babsy.id);
                 input type="hidden" name="date" value=(from_date);
                 input type="hidden" name="user_type" value=(user_type);
 

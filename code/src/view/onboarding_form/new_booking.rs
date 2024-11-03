@@ -1,21 +1,18 @@
 use chrono::NaiveDateTime;
 use maud::html;
 use rocket::{
-    form::Form,
-    fs::TempFile,
-    local::blocking,
-    response::content::RawHtml,
-    tokio::{io::AsyncReadExt, task::spawn_blocking},
-    State,
+    form::Form, fs::TempFile, response::content::RawHtml, tokio::io::AsyncReadExt, State,
 };
 
 use crate::{
-    bookings::{Adress, Booking, IdCard},
+    bookings::{Adress, Booking, BookingState, IdCard},
     persistence::booking_requests,
 };
 
 #[derive(FromForm)]
 pub struct NewBookingData<'r> {
+    super_babsy_id: &'r str,
+    // actual date time
     date: &'r str,
     // Vorname / First name
     first_name: &'r str,
@@ -87,10 +84,9 @@ pub async fn new_booking(
         pictures.push(IdCard::Jpg(back_buffer));
     }
 
-    let message = "".to_string();
-
     let booking = Booking::new(
         id.clone(),
+        new_booking_data.super_babsy_id.to_string(),
         date,
         given_name,
         family_name,
@@ -98,7 +94,7 @@ pub async fn new_booking(
         phone,
         Adress::new(street, house_number, canton, city, zip, country),
         pictures,
-        message,
+        BookingState::Pending,
     );
     bookings.add_booking_request(booking);
 
