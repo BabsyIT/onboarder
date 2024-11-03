@@ -14,7 +14,7 @@ pub fn generate(babsys: Vec<SuperBabsy>) -> Markup {
                         th { "Parent Compentencies" }
                         th { "Sitter Compentencies" }
                         th { "Image Url" }
-                        th { "Avaialability" }
+                        th { "Availability" }
                     }
                 }
                 tbody {
