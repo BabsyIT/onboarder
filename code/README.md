@@ -98,3 +98,47 @@ pub fn delete_booking(booking_id: String, bookings: &State<BookingRequests>) -> 
 
 The fake app is only to demonstrate the flow from the mobile app to the onboarder.
 It might be removed in the future.
+
+### Unwraps and validations
+
+As of now wrongly formatted input will mostly end up in either 422 or a 500, but should not be persisted.
+There are some unwraps where a error handling would be better, let us consider it a TODO.
+
+## Design Decisions and Goals
+
+### The scaling
+
+While this application does help to also scale on organization level, it is not the only place to see it.
+The main focus is that this project can be maintianed by one or two individuals.
+
+This is achieved through:
+
+- Writing the code in a way that it is easy to add a simply database model.
+- Organizing the code to find the relevant parts quickly.
+- Writing view close to html and mostly relying on clear functions and no magic.
+- Mirroring the flow of the onboarding in the code.
+- Only having Runtime failures where sensible.
+
+### Reusability
+
+The applications as a whole, can be forked and then adjusted to a different domain easily.
+For example a booking system for a hair salon or a city tour office.
+
+Future changes should steer even more towards this goal.
+
+However the code is and should not be generialzed as it has advantages in being opinionated.
+For example what a SuperBabsy is might be easier to understand if it is called like that in the code.
+
+### Embedded js and css
+
+inside of code/src/assets there are files which are constants for:
+
+- htmx
+- pico css
+
+Those two libraries are used to make the frontend more dynamic and nice to look at.
+
+When writing an applicaton in rust with rocket you get consistency, reproducability and smooth builds. 
+By embedding core frontend libraries you can preserve the benefits eventhough you depend on java script libraries.
+On top of that the code has a single source of ecosystem dependencies, crates.io.
+
