@@ -35,7 +35,6 @@ pub fn fake_andrea() -> SuperBabsy {
     andrea.availability = fake_availability();
     andrea.sitter = Some(vec![
         LanguageCompetency::german(),
-        LanguageCompetency::english(),
     ]);
     andrea.parent = Some(vec![
         LanguageCompetency::german(),
@@ -86,7 +85,7 @@ pub fn fake_steffi() -> SuperBabsy {
     "###.to_string());
 
     steffi.availability = fake_availability();
-    steffi.sitter = Some(vec![LanguageCompetency::english()]);
+    steffi.sitter = Some(vec![LanguageCompetency::german()]);
     steffi.parent = Some(vec![LanguageCompetency::german()]);
     steffi.image_url =
         Some("https://babsy.ch/wp-content/uploads/2022/07/Steffi-M..jpg".to_string());

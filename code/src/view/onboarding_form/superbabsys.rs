@@ -180,8 +180,6 @@ fn only_available(
 
     user_availability.dedup();
 
-    println!("---- {:?}", user_availability);
-
     super_babsys
         .into_iter()
         .filter(|babsy| {

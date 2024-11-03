@@ -24,7 +24,8 @@ pub fn refresh(semiphore: &State<Refresh>) -> HXResponder<&'static str> {
             .swap(false, std::sync::atomic::Ordering::Relaxed);
         HXResponder {
             inner: "",
-            header: HXHeader("refreshx".to_string()).into(),
+            //enable auto refresh by setting the header to "refresh"
+            header: HXHeader("not-refresh".to_string()).into(),
         }
     } else {
         println!("not-refreshing");
