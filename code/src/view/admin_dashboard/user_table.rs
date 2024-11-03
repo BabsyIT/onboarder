@@ -43,21 +43,22 @@ pub fn generate(babsys: Vec<SuperBabsy>) -> Markup {
     }
 }
 
-pub fn hours(babsy: SuperBabsy)-> Markup{
+pub fn hours(babsy: SuperBabsy) -> Markup {
     let babsy = babsy
-    .get_available_dates_from_first()
-    .into_iter().take(20)
-    .map(|hour| hour.to_string());
-    
-    html!{
+        .get_available_dates_from_first()
+        .into_iter()
+        .take(20)
+        .map(|hour| hour.to_string());
+
+    html! {
         ul{
             @for hour in babsy {
                 li{
                     p .hour { (hour) }
                 }
             }
-            
+
         }
-        
+
     }
 }
