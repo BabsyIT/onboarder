@@ -1,73 +1,68 @@
-# BaselHack 2024 - Babsy - onboarder
+# BaselHack 2024 - Babsy - Onboarder
 
-
-In this readme you will find out how the challenge played out.
-For the readme on the code go to [code/README.md](code/README.md)
-
+In this README, you will find details on how the challenge played out.
+For information on the code, please refer to [code/README.md](code/README.md).
 
 ## Description
 
-This app will help to not loose sitters or parents when they sign up in the mobile app.
+This app is designed to help prevent the loss of sitters or parents during the mobile app signup process.
 
 ## Actors
 
 ### SuperBabsy
 
-A SuberBabsy is a person who is responsible for the onboarding of new sitters and parents.
+A SuperBabsy is responsible for onboarding new sitters and parents.
 
 ### Sitter
-A sitter is a person who is looking for a job as a babysitter.
+A sitter is a person looking for a job as a babysitter.
 
 ### Parent
-A parent is a person who is looking for one or more babysitters.
+A parent is a person seeking one or more babysitters.
 
 ### Admin
-An admin might want to see the statistics of the onboarding process.
-
+An admin may want to view statistics related to the onboarding process.
 
 ## Conceptual Problem
 
 ### Process: 
-1. In the mobile app users (parent and sitters) can sign up. 
-1. The user has to fill out a small part of the profile and then the user is added but the account is not yet confirmed.
-1. In order to confirm the account the user has to click on a link in the app which takes them to the main website.
-1. In the website the user has to fill out a form with more details and what SuperBabsy they want with which availability for a video call.
-1. The user will submit their video call booking request.
-1. The SuperBabsy will see all the bookings and then accept the booking they if they find the user suitable.
-1. The SuperBabsy will have a video call with the user to get to know them.
-1.  If the SuperBabsy finds the user suitable they will confirm the account.
+1. In the mobile app, users (parents and sitters) can sign up.
+2. The user fills out a basic profile section, and their account is added but not yet confirmed.
+3. To confirm the account, the user clicks a link in the app, taking them to the main website.
+4. On the website, the user fills out a form with additional details, including their preferred SuperBabsy and availability for a video call.
+5. The user submits a video call booking request.
+6. SuperBabsy reviews all bookings and, if they find the user suitable, accepts the booking.
+7. SuperBabsy conducts a video call with the user to get to know them.
+8. If SuperBabsy finds the user suitable, they confirm the account.
 
 ### Issues:
-1. When switching from app to the website many users will not complete the registration process:
-- because they do not understand where to continue.
-- they are annoyed becaue the website is not responsive to phones.
-- they think the sign up does not work because the signup form needs 4-5 seconds to load.
+1. When switching from the app to the website, many users do not complete the registration process because:
+   - they do not understand where to continue,
+   - they are frustrated because the website is not responsive on phones,
+   - they think the signup process is broken due to a 4-5 second delay in loading the signup form.
 
-2. When filling out the form the will not complete the form because:
-- When choosing a date they can choose a SuperBabsy who is not available.
-- It is not clear that not all SuperBabsy are available for what language for which type of user e.g. not all SuperBabsys can take Sitter with the language English.
-- They have to put in a lot of information which they already provided in the App.
+2. While filling out the form, users may abandon it because:
+   - they can select a SuperBabsy who is unavailable,
+   - it’s unclear that not all SuperBabsys are available for all languages or types of users (e.g., not all SuperBabsys can onboard English-speaking sitters),
+   - they have to re-enter information already provided in the app.
 
 ## Technical Problems
 
-### Issuses:
+### Issues:
 
-The application has a diffrent backend then the website.
-The website uses a plugin called "bookly" which persists data in its own way.
-The plugin "bookly" is a risk, wordpress plugins can be removed from the owner. The fallback is manual calls and emails.
-Because of the way bookly uses the database and in memory models the wordpress website can not be scaled horizontally.
-
+- The application backend is separate from the website backend.
+- The website uses a plugin called "Bookly" that stores data independently.
+- The "Bookly" plugin poses a risk because WordPress plugins can be discontinued by their owners. The fallback solution is to manually schedule calls and emails.
+- Due to Bookly’s database and in-memory model, the WordPress website cannot scale horizontally.
 
 ## Solution
 
 ### App
-As the app knows if the user is a Sitter or a Parent we can use this information to fill into link.
+Since the app knows if the user is a Sitter or a Parent, we can use this information in the link:
 
 > https://onboarding.babsy.com/?user_type=parent
 
 ### Onboarder
 
-The onboarder can read the url and show only the SuperBabsys to the user who are capable of taking the potenial voice call and onboarding.
-The onboarder gives the user simplified options to choose their availability and wished language, which will reduce the possible SuperBabsys to choose from.
-The onboarder may prefill the form with the information the user already provided in the app.
-
+The onboarder can read the URL and display only the SuperBabsys who are available for the potential video call and onboarding.
+The onboarder offers simplified options for the user to choose their availability and preferred language, reducing the selection of SuperBabsys to only those who are available.
+The onboarder may also prefill the form with information the user already provided in the app.

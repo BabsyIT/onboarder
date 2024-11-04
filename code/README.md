@@ -50,9 +50,9 @@ just verify
 
 The heart of the application is the calendar booking system.
 SuperBabsys have availabilities which determine if they are shown to the potential sitter or parent.
-If forward looking time window of the booking intesects an availability of a SuperBabsy the SuperBabsy can be shown to the user.
+If forward looking time window of the booking intesects with an availability of a SuperBabsy the SuperBabsy can be shown to the user.
 
-The second important part are the compentencies options (Language per users type: English for Sitters), which need to intersect with the SuperBabsys compentencies.
+The second important part is the compentencies options (Language per users type: English for Sitters), which need to intersect with the SuperBabsys compentencies.
 
 ## Pitfalls and Limitations
 
@@ -67,7 +67,7 @@ This can be simulated by:
 
 ### Database
 
-As of now the database is are two simple hash maps.
+As of now the database are two simple hash maps.
 But as you may figure out it will not be hard to switch to a real database later.
 The availability of the SuperBabsy can be stored as a list of time stamps pairs in one table.
 The rest is just data about the user or about a booking.
