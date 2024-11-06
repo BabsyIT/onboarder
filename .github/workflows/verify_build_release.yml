@@ -69,6 +69,7 @@ jobs:
           password: ${{ github.token }}
       - run: |
             just push
+        shell: bash    
             
 
         
