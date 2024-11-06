@@ -17,6 +17,7 @@ jobs:
       checks: write
       pull-requests: write
     steps:  
+      - uses: actions/checkout@v4
       - uses: taiki-e/install-action@v2
         with:
           tool: just@1,hurl@4
