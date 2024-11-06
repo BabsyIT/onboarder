@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4](https://github.com/BabsyIT/onboarder/compare/v0.1.3...v0.1.4) (2024-11-06)
+
+
+### Bug Fixes
+
+* docker build ([66ba32a](https://github.com/BabsyIT/onboarder/commit/66ba32a19580a9775d9947d773b011ef87677b7b))
+* docker build ([1869e1e](https://github.com/BabsyIT/onboarder/commit/1869e1e5eefb13332eb22b1d5cf34208b14b2347))
+
 ## [0.1.3](https://github.com/BabsyIT/onboarder/compare/v0.1.2...v0.1.3) (2024-11-06)
 
 
