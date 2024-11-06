@@ -66,8 +66,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - run: |
-            just docker-build
-            just push $CARGO_PKG_VERSION
+            just push
             
 
         

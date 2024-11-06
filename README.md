@@ -5,7 +5,7 @@
 
 - The [BASEL_HACK_README.md](baselhack/BASEL_HACK_README.md)
 - Local development [documentation/local_development.md](documentation/local_development.md)
- -Docker build [documentation/docker_build.md](documentation/docker_build.md)
+- Docker build [documentation/docker_build.md](documentation/docker_build.md)
 
 
 ## Important
