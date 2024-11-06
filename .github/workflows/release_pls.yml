@@ -18,6 +18,10 @@ jobs:
       pull-requests: write
     steps:  
       - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          fetch-depth: 0 # Fetch the whole history and tags.
       - uses: taiki-e/install-action@v2
         with:
           tool: just@1,hurl@4
