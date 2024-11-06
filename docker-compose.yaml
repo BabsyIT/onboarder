@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  onboarder:
+    image: "ghcr.io/babsyit/onboarder:latest"
+    ports:
+     - "12000:12000" 
+    environment:
+      - RUST_LOG=info

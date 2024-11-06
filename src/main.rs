@@ -1,5 +1,3 @@
-use std::env;
-
 use assets::mount_assets;
 use rocket::{Build, Rocket};
 use tec::mount_tec;
@@ -23,11 +21,6 @@ mod view;
 #[launch]
 fn rocket() -> _ {
     let rocket = rocket::build();
-    let port = env::var("ROCKET_PORT").unwrap_or("8000".to_string());
-
-    let path = format!("http://127.0.0.1:{}", port);
-    println!("Server running on {}", path);
-
     mount(rocket)
 }
 
