@@ -42,4 +42,4 @@ git commit -m "feat!: add new breaking feature"
 
 > Will increase the first number: 1.x.x
 
-2. Then it will creat a pr, if you merge that release pr it will automatically build and push the image to the registry.
+2. Then it will create a pr, if you merge that release pr it will automatically build and push the image to the registry.
