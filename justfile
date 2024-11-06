@@ -42,10 +42,6 @@ up *args:
     docker-compose up {{args}}
     
 
-docker-build version="latest":
-    docker build -t {{image_name}}:{{version}} .
-
-   
 push:
     just _d_push $(just get_version)
     
