@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.3](https://github.com/BabsyIT/onboarder/compare/v0.1.2...v0.1.3) (2024-11-06)
+
+
+### Bug Fixes
+
+* ci ([56f9de0](https://github.com/BabsyIT/onboarder/commit/56f9de0eaf68903e10b76e93f0e25a507cc9784e))
+* ci ([8a0b2f7](https://github.com/BabsyIT/onboarder/commit/8a0b2f776cb812e5f3d659af715a7d33000fed8d))
+* ci ([ca904b2](https://github.com/BabsyIT/onboarder/commit/ca904b214ea0bc612b75e055bdf41dd5ef73c629))
+
 ## [0.1.2](https://github.com/BabsyIT/onboarder/compare/v0.1.1...v0.1.2) (2024-11-06)
 
 
