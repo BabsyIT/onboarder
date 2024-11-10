@@ -12,6 +12,7 @@ rocket ={ version = "0.5.0" }
 maud = { version = "0.25" }
 chrono ="0.4.38"
 uuid = { version ="1.11.0", features = ["v4", "fast-rng"] }
+rocket_oauth2 = "0.5.0"
 
 
 [profile.dev]

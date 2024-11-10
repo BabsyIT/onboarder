@@ -1,4 +1,4 @@
-
+set dotenv-load
 image_name := "ghcr.io/babsyit/onboarder"
 
 

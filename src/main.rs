@@ -17,6 +17,7 @@ mod persistence;
 mod superbabsys;
 mod tec;
 mod view;
+mod auth;
 
 #[launch]
 fn rocket() -> _ {
@@ -38,6 +39,7 @@ fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
             admin_dashboard::delete_booking::delete_booking,
             admin_dashboard::confirm_booking::confirm_booking,
             admin_dashboard::reject_booking::reject_booking,
+            
         ],
     );
 
@@ -46,5 +48,6 @@ fn mount(rocket: Rocket<Build>) -> Rocket<Build> {
     let with_tec = mount_tec(with_assets);
 
     let with_super_babsys = persistence::super_babsys::manage(with_tec);
-    persistence::booking_requests::manage(with_super_babsys)
+    let with_super_babsy =  persistence::booking_requests::manage(with_super_babsys);
+    auth::mount_auth(with_super_babsy)
 }
